@@ -1,0 +1,12 @@
+{
+  "name": "mcrec",
+  "version": "1.0.0",
+  "description": "MCREC - A Tool for Marvel Champions LCG",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mongodb": "^4.3.2"
+  }
+}

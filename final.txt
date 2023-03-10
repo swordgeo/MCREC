@@ -1,0 +1,62 @@
+Final Project Ideas
+
+Note for Br. Gary: Some of these ideas seem similar, but to my mind they are different beasts that will be fulfilling different goals by different means.
+
+1) "MCREC"
+
+For players of the game "Magic The Gathering", edhrec.com is a valuable tool for creating decks in the "EDH" format. 
+Users of that website are able to select the "commander" that helms their deck and find useful data about popular cards often paired with that commander to inform their deckbuilding choices.
+EDHREC does so by scraping the decklists from the API of moxfield.com and other MTG decklist websites to find the most common cards amongst those decks.
+
+This idea is to do something similar with the Marvel Champions LCG produced by Fantasy Flight Games.
+My API and dataset will be coming from marvelcbd.com
+( https://marvelcdb.com/api/ , https://marvelcdb.com/api/doc )
+(Need to see if I can pull all decks or by month instead of only day-by-day, alternatively )
+
+The goal is to help inform new players, when they choose to build a deck for a specific hero, which cards are commonly and popularly used for that hero, so they can make educated decisions.
+
+
+2) "cEDHREC"
+
+This is going to be essentially a different version of EDHREC tailored toward the unofficial sub-format of "Competitive Commander" or "cEDH".
+These decks and the players that use them are very cuthroat and efficient, and are constantly looking at the newly emerging meta to counter the likely choices of opponents.
+My friends that play cEDH have complained that EDHREC including all commander decks in its calculations, both casual and competitive.
+
+This idea is to scrape EDH decklist data from moxfield.com, but sift for the decks that are tagged "Competitive".
+
+
+3) "cPDHREC"
+
+Some EDH players prefer a different sub-format called "Pauper Commander" or "PDH" which consists of using only common rarity (generally weaker) cards.
+My first idea for this project was to make a "PDHREC" for only Pauper Commander decks for my own uses. Turns out such a thing already exists.
+While I could do it anyway I would rather do something novel that I would actually regularly use myself, so here we are.
+
+That said there is also a heavy "competitive" scene for this sub-format as well (isn't there always?).
+
+So the idea is to scrape decklist data from moxfield.com, but sift for the decks that are tagged "Competitive" and "Pauper EDH".
+
+
+4) D&D Character Generator
+
+Using a couple possible D&D APIs, I could create an interactive character generator using the 5e SRD.
+
+We can generate stats with point buy, simulated dice rolling, or manual entry
+
+We might handle higher level characters in chunks similar to MPMB, or systematically level by level 
+
+
+5) Pokemon STAB finder
+
+Pokemon possess certain "types" that interact in a rock-paper-scissors system of strengths and weaknesses.
+
+The idea is for the user to search for a Pokemon, and I'll find all the Pokemon with an advantageous matchup against them.
+
+
+(I admit that ideas two and three are extremely similar, so here's one more)
+6) "MOVREC"
+
+The user is able to find movies that they have already watched and enjoy (found and sorted through the IMDB API) and add their preferences in a list.
+
+The program then iterates through those preferences and finds other users that have some of those movies on their list. 
+The app then recommends movies that appear most commonly among those users.
+The purpose being to suggest movies that are likely to be among their tastes.

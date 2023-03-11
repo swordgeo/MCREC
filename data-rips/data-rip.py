@@ -43,4 +43,6 @@ def ripCardData(cardFileName):
    
 
 ripDeckData(start_date, end_date, deckListFileName)
+
+# only need to turn this on again when new heroes are added
 # ripCardData(cardListFileName)

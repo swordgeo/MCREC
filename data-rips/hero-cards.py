@@ -1,4 +1,4 @@
-#Sift out hero card and put them in a naughty list
+# Sift out hero cards and put them in the naughty list
 
 import json
 

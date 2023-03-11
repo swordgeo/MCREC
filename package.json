@@ -7,6 +7,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "fs-extra": "^11.1.0",
     "mongodb": "^4.3.2"
   }
 }

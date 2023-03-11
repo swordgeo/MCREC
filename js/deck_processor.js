@@ -1,21 +1,7 @@
-const heroName = "Gambit";
-const heroAspect = "protection";
-
-const getJSON = async (url) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
-  }
-  return await response.json();
-};
-
-const processHeroDecks = async () => {
-  const heroCardsData = await getJSON('./hero_cards_list.json');
-  const deckData = await getJSON('./deck_data_sample.json');
-  console.log(deckData);
+export async function processHeroDecks(heroName, heroAspect, heroCardsData, deckListData) {
 
   const chosenDecks = [];
-  for (const dayData of deckData) {
+  for (const dayData of deckListData) {
     for (const deck of dayData) {
       if (deck.investigator_name === heroName && deck.meta == "{\"aspect\":\"" + heroAspect + "\"}") {
         chosenDecks.push(deck);

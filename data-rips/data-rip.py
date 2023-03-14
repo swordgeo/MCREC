@@ -5,10 +5,10 @@ import json
 from datetime import date, timedelta
 
 # Define start and end dates
-start_date = date(2023, 3, 1)
-end_date = date(2023, 3, 8)
-deckListFileName = 'deck_data_sample.json'
-cardListFileName = 'card_data_sample.json'
+start_date = date(2023, 2, 13)
+end_date = date(2023, 3, 13)
+deckListFileName = 'json/deck_data_sample.json'
+cardListFileName = 'json/card_data_sample.json'
 
 def ripDeckData (start_date, end_date, outfileName):
   # Define list to store daily data

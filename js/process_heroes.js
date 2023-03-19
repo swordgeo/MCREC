@@ -1,52 +1,4 @@
-// export async function processHeroDecks(heroName, heroAspect, heroCardsData, deckListData) {
-
-//   const chosenDecks = [];
-//   for (const dayData of deckListData) {
-//     for (const deck of dayData) {
-//       if (deck.investigator_name === heroName && deck.meta == "{\"aspect\":\"" + heroAspect + "\"}") {
-//         chosenDecks.push(deck);
-//       }
-//     }
-//   }
- 
-//   const cardCounts = chosenDecks.reduce((counts, deck) => {
-//     const cardsInDeck = Object.entries(deck.slots);
-//     const filteredCards = cardsInDeck.filter(([cardCode, count]) => {
-//       return count > 0 && !heroCardsData.includes(cardCode);
-//     });
-//     filteredCards.forEach(([cardCode, count]) => {
-//       counts[cardCode] = counts[cardCode] || 0;
-//       counts[cardCode]++;
-//     });
-//     return counts;
-//   }, {});
-
-//   const totalChosenDecks = chosenDecks.length;
-
-//   const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
-//     const percentage = Math.round((count / totalChosenDecks) * 100);
-//     return { code: cardCode, count, percentage };
-//   });
-
-//   cardInfo.sort((a, b) => b.count - a.count);
-
-
-//   const selectedHeroP = document.createElement('p');
-//   selectedHeroP.textContent = `Selected Hero: ${heroName} (${totalChosenDecks} ${heroAspect} decks)`;
-//   const allCardsDiv = document.getElementById('all-cards');
-//   allCardsDiv.appendChild(selectedHeroP);
-
-//   const ul = document.createElement('ul');
-//   cardInfo.forEach(({ code, count, percentage }) => {
-//     const li = document.createElement('li');
-//     li.textContent = `${percentage}% of ${totalChosenDecks} decks: ${code}`;
-//     ul.appendChild(li);
-//   });
-
-//   allCardsDiv.appendChild(ul);
-// }
-
-export async function processHeroDecks(heroName, heroAspect, heroCardsData, deckListData) {
+export async function processHeroDecks(heroName, heroAspect, heroCardsData, deckListData, cardsData) {
 
   //these are the decks of the chosen hero/aspect
   const chosenDecks = [];
@@ -87,39 +39,64 @@ const aspectDeckCount = aspectDecks.length;
   }, {});
 
   const totalChosenDecks = chosenDecks.length;
-
-  /*
-  const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
-    const percentage = Math.round((count / totalChosenDecks) * 100);
-    return { code: cardCode, count, percentage };
-  });
-
-  cardInfo.sort((a, b) => b.count - a.count);
-*/
   
   const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
-  const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
-  const aspectCount = aspectDecks.filter(deck => deck.slots[cardCode] > 0).length;
-  const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
-  const aspectPercentage = Math.round((aspectCount / aspectDeckCount) * 100);
-  const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
-  return { code: cardCode, count, percentage: heroAndAspectPercentage, synergyPercentage };
-});
-
-
-  const selectedHeroP = document.createElement('p');
-  selectedHeroP.textContent = `Selected Hero: ${heroName} (${totalChosenDecks} ${heroAspect} decks)`;
-  const allCardsDiv = document.getElementById('all-cards');
-  allCardsDiv.appendChild(selectedHeroP);
-
-  const ul = document.createElement('ul');
-  cardInfo.forEach(({ code, count, percentage, synergyPercentage }) => {
-    const li = document.createElement('li');
-    li.innerHTML = `${code}<br>
-    ${percentage}% of ${totalChosenDecks} decks<br>
-    ${synergyPercentage}% synergy`;
-    ul.appendChild(li);
+    const cardName = findNameByCode(cardsData, cardCode);
+    const cardPhoto = findPhotoByCode(cardsData, cardCode);
+    const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
+    const aspectCount = aspectDecks.filter(deck => deck.slots[cardCode] > 0).length;
+    const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
+    const aspectPercentage = Math.round((aspectCount / aspectDeckCount) * 100);
+    const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
+    return { code: cardCode, cardName, cardPhoto, count, percentage: heroAndAspectPercentage, synergyPercentage };
   });
 
+  //Let's shoot the template literals into two different functions
+  //Header and cards
+  const heroHeaderDiv = document.getElementById("hero-header");
+  buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv);
+
+  const allCardsDiv = document.getElementById("all-cards");
+  buildCardDiv(cardInfo, totalChosenDecks, allCardsDiv);
+}
+
+function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) {
+  const heroHeader = document.createElement('h2');
+  heroHeader.textContent = `Selected Hero: ${heroName} (${totalChosenDecks} ${heroAspect} decks)`;
+  heroHeaderDiv.appendChild(heroHeader);
+}
+
+function buildCardDiv(cardInfo, totalChosenDecks, allCardsDiv) {
+  const ul = document.createElement('ul');
+  
+  // sort cardInfo by synergyPercentage in descending order
+  cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage);
+  
+  cardInfo.forEach(({ code, cardName, cardPhoto, count, percentage, synergyPercentage }) => {
+    const li = document.createElement('li');
+    //two versions based on positive or negative synergy
+    if (synergyPercentage > 0) {
+      li.innerHTML = `<p id="${code}">${cardName}</p>
+      <img src="https://marvelcdb.com/${cardPhoto}"><br>
+      ${percentage}% of ${totalChosenDecks} decks<br>
+      +${synergyPercentage}% synergy`;
+      ul.appendChild(li);
+    } else {
+      li.innerHTML = `<p id="${code}">${cardName}</p>
+      ${percentage}% of ${totalChosenDecks} decks<br>
+      ${synergyPercentage}% synergy`;
+      ul.appendChild(li);
+    }
+  });
   allCardsDiv.appendChild(ul);
+}
+
+function findNameByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.name : null;
+}
+
+function findPhotoByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.imagesrc : null;
 }

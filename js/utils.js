@@ -8,6 +8,14 @@ export function capitalize(string) {
   return finalWord;
 }
 
+
+export function disableRadios(radioList, bool) {
+  for (let i = 0; i < radioList.length; i++) {
+    radioList[i].disabled = bool;
+  }
+}
+
+
 export async function getJSON(url) {
   const response = await fetch(url);
   if (!response.ok) {
@@ -15,3 +23,5 @@ export async function getJSON(url) {
   }
   return await response.json();
 }
+
+

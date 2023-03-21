@@ -1,7 +1,8 @@
 import { capitalize } from "./utils.js";
 
 export async function createHeroSelector(heroCardsData) {
-  const selectorDiv = document.querySelector("#hero-select");
+  const selectorSection = document.querySelector("#hero-select");
+  const selectorDiv = document.createElement("div");
 
   //Make a selector for all the heroes, id is their hero code, visible is their hero name
 
@@ -20,23 +21,29 @@ export async function createHeroSelector(heroCardsData) {
     heroSelect.appendChild(option);
   }
   selectorDiv.appendChild(heroSelect);
+  selectorSection.appendChild(selectorDiv);
 
-//Make a radio button for each aspect
-//We're gonna make this an exportable function in anticipation for Spider-Woman shenanigans
-  createRadios("aspect", selectorDiv);
-
+  //Make a radio button for each aspect
+  //We're gonna make this an exportable function in anticipation for Spider-Woman shenanigans
+  const radio = createRadios("aspect", selectorSection);
+  selectorSection.appendChild(radio);
+  //Actually I think we're just gonna make it right here, then hide with CSS
+  const radio2 = createRadios("aspect2", selectorSection);
+  selectorSection.appendChild(radio2);
 
   const submitBtn = document.createElement("button");
   submitBtn.setAttribute("disabled", "");
   submitBtn.setAttribute("id", "submitBtn");
   submitBtn.textContent = "Get Results";
-  selectorDiv.appendChild(submitBtn);
+  selectorSection.appendChild(submitBtn);
 
 
 
 }
 
-export function createRadios(radioName, div) {
+export function createRadios(radioName, section) {
+  const div = document.createElement("div");
+  div.setAttribute("id", radioName);
   const aspects = ["aggression", "justice", "leadership", "protection"];
   aspects.forEach(createRadio);
 
@@ -50,5 +57,6 @@ export function createRadios(radioName, div) {
     radioLabel.append(capitalize(aspect));
     div.appendChild(radioLabel);
   }
-
+  return div;
+  
 }

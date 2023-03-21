@@ -2,12 +2,19 @@
   "name": "mcrec",
   "version": "1.0.0",
   "description": "MCREC - A Tool for Marvel Champions LCG",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "nodemon server.js",
+    "browser-sync": "browser-sync start --proxy http://localhost:3000 --files 'src/**/*.*'"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "fs-extra": "^11.1.0",
-    "mongodb": "^4.3.2"
+    "mongodb": "^4.3.2",
+    "nodemon": "^2.0.21"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.29.0",
+    "nodemon": "^2.0.21"
   }
 }

@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 // Load the nested deck data from the JSON file
-const nestedDecks = require('../json/deck_data_sample.json');
+const nestedDecks = require('../../json/deck_data_sample.json');
 
 // Create an object to store the distinct investigator data
 const distinctInvestigators = {};

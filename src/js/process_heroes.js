@@ -78,19 +78,21 @@ function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   
   cardInfo.forEach(({ code, cardName, cardPhoto, count, percentage, synergyPercentage }) => {
     const li = document.createElement('li');
-    //two versions based on positive or negative synergy
-    if (synergyPercentage > 0) {
-      li.innerHTML = `<p id="${code}">${cardName}</p>
-      <img src="https://marvelcdb.com/${cardPhoto}"><br>
-      ${percentage}% of ${totalChosenDecks} decks<br>
-      +${synergyPercentage}% synergy`;
-      ul.appendChild(li);
+    li.innerHTML = `<p id="${code}">${cardName}</p>`;
+    //in case of bad photo, use placeholder
+    if (cardPhoto == null) {
+      li.innerHTML += `<img src="../images/Trollface_non-free.png"><br>`;
     } else {
-      li.innerHTML = `<p id="${code}">${cardName}</p>
-      ${percentage}% of ${totalChosenDecks} decks<br>
-      ${synergyPercentage}% synergy`;
-      ul.appendChild(li);
+      li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
     }
+    li.innerHTML += `${percentage}% of ${totalChosenDecks} decks<br>`;
+    //positive vs negative synergy
+    if (synergyPercentage > 0) {
+    li.innerHTML += `+${synergyPercentage}% synergy`;
+    } else {
+    li.innerHTML += `${synergyPercentage}% synergy`;
+    }
+    ul.appendChild(li);
   });
   cardResultsDiv.appendChild(ul);
 }

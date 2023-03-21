@@ -2,6 +2,7 @@
 
 export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData) {
   console.log(`Here we are with ${heroAspect} and ${heroAspect2}`);
+  
 }
 
 

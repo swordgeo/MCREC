@@ -70,7 +70,7 @@ function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) 
   heroHeaderDiv.appendChild(heroHeader);
 }
 
-function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
+export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   const ul = document.createElement('ul');
   
   // sort cardInfo by synergyPercentage in descending order
@@ -81,7 +81,7 @@ function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
     li.innerHTML = `<p id="${code}">${cardName}</p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
-      li.innerHTML += `<img src="../images/Trollface_non-free.png"><br>`;
+      li.innerHTML += `<img src="/src/images/Trollface_non-free.png"><br>`;
     } else {
       li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
     }
@@ -97,12 +97,12 @@ function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   cardResultsDiv.appendChild(ul);
 }
 
-function findNameByCode(cardsData, code) {
+export function findNameByCode(cardsData, code) {
   const cardObj = cardsData.find(card => card.code === code);
   return cardObj ? cardObj.name : null;
 }
 
-function findPhotoByCode(cardsData, code) {
+export function findPhotoByCode(cardsData, code) {
   const cardObj = cardsData.find(card => card.code === code);
   return cardObj ? cardObj.imagesrc : null;
 }

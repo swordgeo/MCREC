@@ -5,10 +5,10 @@ import { createHeroSelector, createRadios } from './hero_selector.js';
 import { disableRadios, getJSON } from './utils.js';
 
 
-const heroNamesData = await getJSON('../json/hero_names.json');
-const heroCardsData = await getJSON('../json/hero_cards_list.json');
-const deckListData = await getJSON('../json/deck_data_sample.json');
-const cardsData = await getJSON('../json/card_data_sample.json');
+const heroNamesData = await getJSON('/src/json/hero_names.json');
+const heroCardsData = await getJSON('/src/json/hero_cards_list.json');
+const deckListData = await getJSON('/src/json/deck_data_sample.json');
+const cardsData = await getJSON('/src/json/card_data_sample.json');
 
 
 // const heroName = "Doctor Strange";

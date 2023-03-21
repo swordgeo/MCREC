@@ -1,25 +1,62 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
+import {buildCardDiv, findNameByCode, findPhotoByCode} from './process_heroes.js';
 
-export async function processAdamWarlockDecks(heroCardsData, deckListData) {
+// "cardcode":"21031a"
+export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
+  console.log("Here we are at Adam Warlock");
 
-  console.log("Here we are");
-  const chosenDecksByAspect = {
-    Aggression: [],
-    Justice: [],
-    Leadership: [],
-    Protection: []
-  };
-
-  // Divide each deck into aspect piles
+  const chosenDecks = [];
+  // this is a nested list now therefore we're going to iterate by sublist (day)
   for (const dayData of deckListData) {
     for (const deck of dayData) {
-      if (deck.investigator_name === 'Adam Warlock') {
-        const aspect = deck.meta.aspect;
-        chosenDecksByAspect[aspect].push(deck);
+      //for most heroes we search by hero and aspect combination
+      //Adam Warlock and Spider-Woman will complicate this.
+      if (deck.investigator_code === "21031a") {
+        chosenDecks.push(deck);
       }
     }
   }
+
+  const totalChosenDecks = chosenDecks.length;
+  console.log(chosenDecks);
+
+
+  // const DecksByAspect = {
+  //   aggression: [],
+  //   justice: [],
+  //   leadership: [],
+  //   protection: []
+  // };
+
+  // // Divide each deck into aspect piles
+  // for (const dayData of deckListData) {
+  //   for (const deck of dayData) {
+  //     if (deck.investigator_name === 'Adam Warlock') {
+  //       const aspect = deck.meta.aspect;
+  //       chosenDecksByAspect[aspect].push(deck);
+  //     }
+  //   }
+  // }
+
+  const aspects = ["aggresion", "justice", "leadership", "protection"]
+
+  const aspectDecks = {
+    aggression: [],
+    leadership: [],
+    justice: [],
+    protection: [],
+  };
+  
+  for (const dayData of deckListData) {
+    for (const deck of dayData) {
+      if (deck.investigator_code !== "21031a") {
+        const deckAspect = JSON.parse(deck.meta).aspect;
+        aspectDecks[deckAspect].push(deck);
+      }
+    }
+  }
+  
 
   // Calculate card counts and percentages for each aspect separately
   const cardCountsByAspect = {};

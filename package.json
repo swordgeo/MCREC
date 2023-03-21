@@ -2,9 +2,9 @@
   "name": "mcrec",
   "version": "1.0.0",
   "description": "MCREC - A Tool for Marvel Champions LCG",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node main.js"
   },
   "dependencies": {
     "fs-extra": "^11.1.0",

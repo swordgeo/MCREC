@@ -1,4 +1,4 @@
-export async function processHeroDecks(heroName, heroAspect, heroCardsData, deckListData, cardsData) {
+export async function processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData) {
 
   //these are the decks of the chosen hero/aspect
   const chosenDecks = [];
@@ -7,7 +7,7 @@ export async function processHeroDecks(heroName, heroAspect, heroCardsData, deck
     for (const deck of dayData) {
       //for most heroes we search by hero and aspect combination
       //Adam Warlock and Spider-Woman will complicate this.
-      if (deck.investigator_name === heroName && deck.meta == "{\"aspect\":\"" + heroAspect + "\"}") {
+      if (deck.investigator_code === herocode && deck.meta == `{"aspect":"${heroAspect}"}`) {
         chosenDecks.push(deck);
       }
     }
@@ -17,13 +17,13 @@ export async function processHeroDecks(heroName, heroAspect, heroCardsData, deck
   const aspectDecks = [];
   for (const dayData of deckListData) {
     for (const deck of dayData) {
-      if (deck.investigator_name !== heroName && deck.meta === `{"aspect":"${heroAspect}"}`) {
+      if (deck.investigator_code !== herocode && deck.meta === `{"aspect":"${heroAspect}"}`) {
       aspectDecks.push(deck);
+      }
     }
   }
-}
 
-const aspectDeckCount = aspectDecks.length;
+  const aspectDeckCount = aspectDecks.length;
 
  
   const cardCounts = chosenDecks.reduce((counts, deck) => {
@@ -54,10 +54,14 @@ const aspectDeckCount = aspectDecks.length;
   //Let's shoot the template literals into two different functions
   //Header and cards
   const heroHeaderDiv = document.getElementById("hero-header");
+  //clear it in case it's a resubmit
+  heroHeaderDiv.innerHTML = '';
+  const heroName = findNameByCode(cardsData, herocode);
   buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv);
 
-  const allCardsDiv = document.getElementById("all-cards");
-  buildCardDiv(cardInfo, totalChosenDecks, allCardsDiv);
+  const cardResultsDiv = document.getElementById("card-results");
+  cardResultsDiv.innerHTML = '';
+  buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
 }
 
 function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) {
@@ -66,7 +70,7 @@ function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) 
   heroHeaderDiv.appendChild(heroHeader);
 }
 
-function buildCardDiv(cardInfo, totalChosenDecks, allCardsDiv) {
+function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   const ul = document.createElement('ul');
   
   // sort cardInfo by synergyPercentage in descending order
@@ -88,7 +92,7 @@ function buildCardDiv(cardInfo, totalChosenDecks, allCardsDiv) {
       ul.appendChild(li);
     }
   });
-  allCardsDiv.appendChild(ul);
+  cardResultsDiv.appendChild(ul);
 }
 
 function findNameByCode(cardsData, code) {

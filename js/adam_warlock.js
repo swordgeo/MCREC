@@ -3,6 +3,7 @@
 
 export async function processAdamWarlockDecks(heroCardsData, deckListData) {
 
+  console.log("Here we are");
   const chosenDecksByAspect = {
     Aggression: [],
     Justice: [],

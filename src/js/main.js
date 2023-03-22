@@ -98,8 +98,7 @@ async function handleSubmit(event) {
   } else if (herocode == "04031a") { //Spider-Woman
     const heroAspect2 = getSelectedRadioButtonValue(radio2);
     await processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData);
-
-
+  } else {
+    await processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData);
   }
-  await processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData);
 }

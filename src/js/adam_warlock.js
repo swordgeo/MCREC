@@ -1,116 +1,89 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
-import {buildCardDiv, findNameByCode, findPhotoByCode} from './process_heroes.js';
+import {buildCardDiv, findAspectByCode, findNameByCode, findPhotoByCode} from './process_heroes.js';
 
 // "cardcode":"21031a"
 export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
   console.log("Here we are at Adam Warlock");
 
   const chosenDecks = [];
+
+  let aspects = ["aggression", "justice", "leadership", "protection"]
+
+  const aspectDecks = {
+    "aggression": [],
+    "leadership": [],
+    "justice": [],
+    "protection": [],
+    "basic": [],
+  };
+
   // this is a nested list now therefore we're going to iterate by sublist (day)
   for (const dayData of deckListData) {
     for (const deck of dayData) {
-      //for most heroes we search by hero and aspect combination
-      //Adam Warlock and Spider-Woman will complicate this.
       if (deck.investigator_code === "21031a") {
         chosenDecks.push(deck);
+        aspectDecks["basic"].push(deck);
+      } else {
+        innerLoop: for (const aspect of aspects) {
+          if(deck.meta === `{"aspect":"${aspect}"}`) {
+            aspectDecks[aspect].push(deck);
+            aspectDecks["basic"].push(deck);
+            break innerLoop;
+          }
+        }
       }
     }
   }
 
   const totalChosenDecks = chosenDecks.length;
-  console.log(chosenDecks);
 
-
-  // const DecksByAspect = {
-  //   aggression: [],
-  //   justice: [],
-  //   leadership: [],
-  //   protection: []
-  // };
-
-  // // Divide each deck into aspect piles
-  // for (const dayData of deckListData) {
-  //   for (const deck of dayData) {
-  //     if (deck.investigator_name === 'Adam Warlock') {
-  //       const aspect = deck.meta.aspect;
-  //       chosenDecksByAspect[aspect].push(deck);
-  //     }
-  //   }
-  // }
-
-  const aspects = ["aggresion", "justice", "leadership", "protection"]
-
-  const aspectDecks = {
-    aggression: [],
-    leadership: [],
-    justice: [],
-    protection: [],
-  };
-  
-  for (const dayData of deckListData) {
-    for (const deck of dayData) {
-      if (deck.investigator_code !== "21031a") {
-        const deckAspect = JSON.parse(deck.meta).aspect;
-        aspectDecks[deckAspect].push(deck);
-      }
-    }
-  }
-  
-
-  // Calculate card counts and percentages for each aspect separately
-  const cardCountsByAspect = {};
-  const totalChosenDecksByAspect = {};
-  for (const [aspect, decks] of Object.entries(chosenDecksByAspect)) {
-    const cardCounts = decks.reduce((counts, deck) => {
-      const cardsInDeck = Object.entries(deck.slots);
-      const filteredCards = cardsInDeck.filter(([cardCode, count]) => {
-        return count > 0 && !heroCardsData.includes(cardCode);
-      });
-      filteredCards.forEach(([cardCode, count]) => {
-        counts[cardCode] = counts[cardCode] || 0;
-        counts[cardCode]++;
-      });
-      return counts;
-    }, {});
-
-    const totalChosenDecks = decks.length;
-
-    const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
-      const percentage = Math.round((count / totalChosenDecks) * 100);
-      return { code: cardCode, count, percentage };
+  const cardCounts = chosenDecks.reduce((counts, deck) => {
+    const cardsInDeck = Object.entries(deck.slots);
+    const filteredCards = cardsInDeck.filter(([cardCode, count]) => {
+      return count > 0 && !heroCardsData.includes(cardCode);
     });
-
-    cardCountsByAspect[aspect] = cardCounts;
-    totalChosenDecksByAspect[aspect] = totalChosenDecks;
-  }
-
-  // Calculate the synergy score for each card
-  const cardInfoWithSynergy = Object.entries(cardCountsByAspect).flatMap(([aspect, cardCounts]) => {
-    const totalChosenDecks = totalChosenDecksByAspect[aspect];
-    return Object.entries(cardCounts).map(([cardCode, count]) => {
-      const synergyCounts = Object.values(cardCountsByAspect).filter(otherCardCounts => otherCardCounts.hasOwnProperty(cardCode));
-      const synergyTotalDecks = Object.values(totalChosenDecksByAspect).reduce((sum, decks) => sum + (decks - totalChosenDecks), 0);
-      const synergyPercentage = Math.round((synergyCounts.reduce((sum, counts) => sum + (counts[cardCode] || 0), 0) / synergyTotalDecks) * 100);
-      const percentage = Math.round((count / totalChosenDecks) * 100);
-      const synergyScore = synergyPercentage - percentage;
-      return { code: cardCode, count, percentage, synergyScore };
+    filteredCards.forEach(([cardCode, count]) => {
+      counts[cardCode] = counts[cardCode] || 0;
+      counts[cardCode]++;
     });
+    return counts;
+  }, {});
+
+
+
+
+  const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
+    const cardName = findNameByCode(cardsData, cardCode);
+    const cardPhoto = findPhotoByCode(cardsData, cardCode);
+    const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
+    const cardAspect = findAspectByCode(cardsData, cardCode);
+
+
+
+    const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
+    const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
+    const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
+    const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
+    return { code: cardCode, cardName, cardPhoto, count, percentage: heroAndAspectPercentage, synergyPercentage };
   });
 
-  cardInfoWithSynergy.sort((a, b) => b.count - a.count);
+  //Let's shoot the template literals into two different functions
+  //Header and cards
+  const heroHeaderDiv = document.getElementById("hero-header");
+  //clear it in case it's a resubmit
+  heroHeaderDiv.innerHTML = '';
+  // const heroName = findNameByCode(cardsData, herocode);
+  buildHeroHeader(totalChosenDecks, heroHeaderDiv);
 
-  // Display the results
-  const selectedHeroP = document.createElement('p');
-  selectedHeroP.textContent = 'Selected Hero: Adam Warlock (all aspect decks)';
-  const allCardsDiv = document.getElementById('all-cards');
-  allCardsDiv.appendChild(selectedHeroP);
+  const cardResultsDiv = document.getElementById("card-results");
+  cardResultsDiv.innerHTML = '';
+  buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
+}
 
-  const ul = document.createElement('ul');
-  cardInfoWithSynergy.forEach(({ code, count, percentage, synergyScore }) => {
-    const li = document.createElement('li');
-    li.textContent = `${percentage}% of ${totalChosenDecks} decks, ${synergyScore}% synergy score: ${code}`;
-    ul.appendChild(li);
-  });
-  allCardsDiv.appendChild(ul);
+//built original because of lacking aspects
+function buildHeroHeader(totalChosenDecks, heroHeaderDiv) {
+  const heroHeader = document.createElement('h2');
+  heroHeader.textContent = `Selected Hero: Adam Warlock (${totalChosenDecks} decks)`;
+  heroHeaderDiv.appendChild(heroHeader);
 }

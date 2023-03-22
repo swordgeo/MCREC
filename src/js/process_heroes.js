@@ -97,6 +97,12 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   cardResultsDiv.appendChild(ul);
 }
 
+//not used in this file but used for Adam Warlock and Spider-Woman
+export function findAspectByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.faction_code : null;
+}
+
 export function findNameByCode(cardsData, code) {
   const cardObj = cardsData.find(card => card.code === code);
   return cardObj ? cardObj.name : null;

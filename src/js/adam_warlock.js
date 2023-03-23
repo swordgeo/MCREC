@@ -4,7 +4,7 @@ import {buildCardDiv, findAspectByCode, findNameByCode, findPhotoByCode} from '.
 
 // "cardcode":"21031a"
 export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
-  console.log("Here we are at Adam Warlock");
+  // console.log("Here we are at Adam Warlock");
 
   const chosenDecks = [];
 
@@ -23,7 +23,6 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
     for (const deck of dayData) {
       if (deck.investigator_code === "21031a") {
         chosenDecks.push(deck);
-        aspectDecks["basic"].push(deck);
       } else {
         innerLoop: for (const aspect of aspects) {
           if(deck.meta === `{"aspect":"${aspect}"}`) {
@@ -58,9 +57,8 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
     const cardPhoto = findPhotoByCode(cardsData, cardCode);
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
     const cardAspect = findAspectByCode(cardsData, cardCode);
-
-
-
+    // console.log(cardAspect);
+    // console.log(aspectDecks[cardAspect]);
     const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
     const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
     const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);

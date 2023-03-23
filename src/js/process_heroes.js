@@ -77,11 +77,14 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage);
   
   cardInfo.forEach(({ code, cardName, cardPhoto, count, percentage, synergyPercentage }) => {
+    if (code == 0) {
+      return;
+    }
     const li = document.createElement('li');
     li.innerHTML = `<p id="${code}">${cardName}</p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
-      li.innerHTML += `<img src="/src/images/Trollface_non-free.png"><br>`;
+      li.innerHTML += `<img src="/images/Trollface_non-free.png"><br>`;
     } else {
       li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
     }

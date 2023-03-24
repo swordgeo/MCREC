@@ -25,3 +25,38 @@ export async function getJSON(url) {
 }
 
 
+export function fillHeaderFooter() {
+
+  document.querySelector('header').innerHTML =
+  parentElement.insertAdjacentHTML(position, template);
+}
+
+export async function loadTemplate(path) {
+  const html = await fetch(path);
+  const template = await html.text();
+  return template;
+}
+
+export async function loadHeaderFooter() {
+  const header = document.querySelector('header');
+  const headerTemplate = await loadTemplate("../snippets/header.html");
+
+  renderWithTemplate(headerTemplate, header);
+
+  const footer = document.querySelector('footer');
+  const footerTemplate = await loadTemplate("../snippets/footer.html");
+  renderWithTemplate(footerTemplate, footer);
+}
+
+export function renderWithTemplate(
+  template,
+  parentElement,
+  position = "afterbegin",
+  data,
+  callback
+) {
+  parentElement.insertAdjacentHTML(position, template);
+  if (callback) {
+    callback(data);
+  }
+}

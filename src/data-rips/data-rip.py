@@ -4,11 +4,12 @@ import requests
 import json
 from datetime import date, timedelta
 
+# Currently 12/13 to 3/13
 # Define start and end dates
-start_date = date(2023, 2, 13)
-end_date = date(2023, 3, 13)
-deckListFileName = 'json/deck_data_sample.json'
-cardListFileName = 'json/card_data_sample.json'
+start_date = date(2022, 12, 13)
+end_date = date(2023, 1, 13)
+deckListFileName = 'src/json/deck_data_sample2.json'
+cardListFileName = 'src/json/card_data_sample.json'
 
 def ripDeckData (start_date, end_date, outfileName):
   # Define list to store daily data

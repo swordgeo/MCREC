@@ -2,7 +2,7 @@ import { processHeroDecks } from './process_heroes.js';
 import { processAdamWarlockDecks } from './adam_warlock.js';
 import { processSpiderWomanDecks } from './spider_woman.js';
 import { createHeroSelector, createRadios } from './hero_selector.js';
-import { disableRadios, getJSON, loadHeaderFooter } from './utils.js';
+import { disableRadios, getJSON, hamburger, loadHeaderFooter } from './utils.js';
 
 
 const heroNamesData = await getJSON('/json/hero_names.json');
@@ -11,7 +11,10 @@ const deckListData = await getJSON('/json/deck_data_sample.json');
 const cardsData = await getJSON('/json/card_data_sample.json');
 
 
-loadHeaderFooter()
+loadHeaderFooter().then(header => {
+  hamburger(header);
+});
+
 // const heroName = "Doctor Strange";
 // const heroAspect = "aggression";
 // await processHeroDecks(heroName, heroAspect, heroCardsData, deckListData, cardsData);

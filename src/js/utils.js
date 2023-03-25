@@ -25,17 +25,13 @@ export async function getJSON(url) {
 }
 
 
-export function fillHeaderFooter() {
-
-  document.querySelector('header').innerHTML =
-  parentElement.insertAdjacentHTML(position, template);
+export function hamburger(header) {
+  const x = header.querySelector('#hamburgerBtn');
+  console.log(x); // check if element is found
+  x.onclick = toggleMenu;
 }
 
-export async function loadTemplate(path) {
-  const html = await fetch(path);
-  const template = await html.text();
-  return template;
-}
+
 
 export async function loadHeaderFooter() {
   const header = document.querySelector('header');
@@ -46,7 +42,17 @@ export async function loadHeaderFooter() {
   const footer = document.querySelector('footer');
   const footerTemplate = await loadTemplate("../snippets/footer.html");
   renderWithTemplate(footerTemplate, footer);
+
+  return header;
 }
+
+
+export async function loadTemplate(path) {
+  const html = await fetch(path);
+  const template = await html.text();
+  return template;
+}
+
 
 export function renderWithTemplate(
   template,
@@ -59,4 +65,12 @@ export function renderWithTemplate(
   if (callback) {
     callback(data);
   }
+}
+
+function toggleMenu() {
+  console.log("toggleMenu called");
+  const primaryNav = document.getElementById('primaryNav');
+  console.log(primaryNav); // check if element is found
+  primaryNav.classList.toggle("open");
+  document.getElementById('hamburgerBtn').classList.toggle("open");
 }

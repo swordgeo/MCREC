@@ -45,7 +45,7 @@ export async function getJSON(url) {
 
 export function hamburger(header) {
   const x = header.querySelector('#hamburgerBtn');
-  console.log(x); // check if element is found
+  // console.log(x); // check if element is found
   x.onclick = toggleMenu;
 }
 
@@ -86,9 +86,9 @@ export function renderWithTemplate(
 }
 
 function toggleMenu() {
-  console.log("toggleMenu called");
+  // console.log("toggleMenu called");
   const primaryNav = document.getElementById('primaryNav');
-  console.log(primaryNav); // check if element is found
+  // console.log(primaryNav); // check if element is found
   primaryNav.classList.toggle("open");
   document.getElementById('hamburgerBtn').classList.toggle("open");
 }

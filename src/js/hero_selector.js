@@ -25,10 +25,10 @@ export async function createHeroSelector(heroCardsData) {
 
   //Make a radio button for each aspect
   //We're gonna make this an exportable function in anticipation for Spider-Woman shenanigans
-  const radio = createRadios("aspect", selectorSection);
+  const radio = createRadios("aspect");
   selectorSection.appendChild(radio);
   //Actually I think we're just gonna make it right here, then hide with CSS
-  const radio2 = createRadios("aspect2", selectorSection);
+  const radio2 = createRadios("aspect2");
   selectorSection.appendChild(radio2);
 
   const submitBtn = document.createElement("button");
@@ -41,12 +41,14 @@ export async function createHeroSelector(heroCardsData) {
 
 }
 
-export function createRadios(radioName, section) {
+export function createRadios(radioName, basic = false) {
   const div = document.createElement("div");
   div.setAttribute("id", radioName);
   const aspects = ["aggression", "justice", "leadership", "protection"];
+  if (basic) {
+    aspects.push("basic");
+  }
   aspects.forEach(createRadio);
-
   function createRadio(aspect) {
     const radioLabel = document.createElement("label");
     const radioInput = document.createElement("input");
@@ -58,5 +60,4 @@ export function createRadios(radioName, section) {
     div.appendChild(radioLabel);
   }
   return div;
-  
 }

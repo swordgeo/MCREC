@@ -4,10 +4,10 @@ import requests
 import json
 from datetime import date, timedelta
 
-# Currently 12/13 to 3/13
+# Currently 11/13 to 3/13
 # Define start and end dates
-start_date = date(2022, 12, 13)
-end_date = date(2023, 1, 13)
+start_date = date(2022, 11, 13)
+end_date = date(2022, 12, 13)
 deckListFileName = 'src/json/deck_data_sample2.json'
 cardListFileName = 'src/json/card_data_sample.json'
 

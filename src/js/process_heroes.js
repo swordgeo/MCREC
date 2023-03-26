@@ -1,3 +1,5 @@
+import { findNameByCode, findPhotoByCode } from "./utils.js";
+
 export async function processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData) {
 
   //these are the decks of the chosen hero/aspect
@@ -65,7 +67,7 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, deck
 }
 
 function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) {
-  const heroHeader = document.createElement('h2');
+  const heroHeader = document.createElement('h3');
   heroHeader.textContent = `Selected Hero: ${heroName} (${totalChosenDecks} ${heroAspect} decks)`;
   heroHeaderDiv.appendChild(heroHeader);
 }
@@ -76,7 +78,7 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   // sort cardInfo by synergyPercentage in descending order
   cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage);
   
-  cardInfo.forEach(({ code, cardName, cardPhoto, count, percentage, synergyPercentage }) => {
+  cardInfo.forEach(({ code, cardName, cardPhoto, percentage, synergyPercentage }) => {
     if (code == 0) {
       return;
     }
@@ -98,20 +100,4 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
     ul.appendChild(li);
   });
   cardResultsDiv.appendChild(ul);
-}
-
-//not used in this file but used for Adam Warlock and Spider-Woman
-export function findAspectByCode(cardsData, code) {
-  const cardObj = cardsData.find(card => card.code === code);
-  return cardObj ? cardObj.faction_code : null;
-}
-
-export function findNameByCode(cardsData, code) {
-  const cardObj = cardsData.find(card => card.code === code);
-  return cardObj ? cardObj.name : null;
-}
-
-export function findPhotoByCode(cardsData, code) {
-  const cardObj = cardsData.find(card => card.code === code);
-  return cardObj ? cardObj.imagesrc : null;
 }

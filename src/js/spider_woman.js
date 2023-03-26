@@ -1,4 +1,5 @@
-import {buildCardDiv, findAspectByCode, findNameByCode, findPhotoByCode} from './process_heroes.js';
+import {buildCardDiv} from './process_heroes.js';
+import { findAspectByCode, findNameByCode, findPhotoByCode } from "./utils.js";
 // "04031a"
 export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData) {
 

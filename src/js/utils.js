@@ -16,6 +16,24 @@ export function disableRadios(radioList, bool) {
 }
 
 
+export function findAspectByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.faction_code : null;
+}
+
+
+export function findNameByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.name : null;
+}
+
+
+export function findPhotoByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.imagesrc : null;
+}
+
+
 export async function getJSON(url) {
   const response = await fetch(url);
   if (!response.ok) {

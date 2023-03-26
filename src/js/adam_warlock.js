@@ -1,7 +1,7 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
-import {buildCardDiv, findAspectByCode, findNameByCode, findPhotoByCode} from './process_heroes.js';
-
+import { buildCardDiv } from './process_heroes.js';
+import { findAspectByCode, findNameByCode, findPhotoByCode } from './utils.js';
 // "cardcode":"21031a"
 export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
   // console.log("Here we are at Adam Warlock");

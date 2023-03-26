@@ -43,6 +43,17 @@ export async function getJSON(url) {
 }
 
 
+// Function to retrieve the value of the selected radio button
+export function getSelectedRadioButtonValue(radioSet) {
+  for (let i = 0; i < radioSet.length; i++) {
+    if (radioSet[i].checked) {
+      return radioSet[i].value;
+    }
+  }
+  return null;
+}
+
+
 export function hamburger(header) {
   const x = header.querySelector('#hamburgerBtn');
   // console.log(x); // check if element is found

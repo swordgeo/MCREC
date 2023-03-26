@@ -2,7 +2,7 @@ import { processHeroDecks } from './process_heroes.js';
 import { processAdamWarlockDecks } from './adam_warlock.js';
 import { processSpiderWomanDecks } from './spider_woman.js';
 import { createHeroSelector } from './hero_selector.js';
-import { disableRadios, getJSON, hamburger, loadHeaderFooter } from './utils.js';
+import { disableRadios, getJSON, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from './utils.js';
 
 
 const heroNamesData = await getJSON('/json/hero_names.json');
@@ -82,15 +82,7 @@ function handleSelectionChange() {
   }
 }
 
-// Function to retrieve the value of the selected radio button
-export function getSelectedRadioButtonValue(radioSet) {
-  for (let i = 0; i < radioSet.length; i++) {
-    if (radioSet[i].checked) {
-      return radioSet[i].value;
-    }
-  }
-  return null;
-}
+
 
 async function handleSubmit(event) {
   event.preventDefault(); // Prevent page refresh

@@ -1,6 +1,5 @@
 import { createRadios } from "./hero_selector.js";
-import { getSelectedRadioButtonValue } from "./main.js";
-import { capitalize, getJSON, hamburger, loadHeaderFooter } from "./utils.js";
+import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, getJSON, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from "./utils.js";
 
 const deckListData = await getJSON("/json/deck_data_sample.json");
 const cardsData = await getJSON("/json/card_data_sample.json");
@@ -13,14 +12,17 @@ loadHeaderFooter().then(header => {
 const radio = document.getElementById("aspect-select");
 const radioMaker = createRadios("staple-radio", true);
 radio.appendChild(radioMaker);
+const radios = document.getElementsByName("staple-radio");
 
 // createRadios(radioName)
-for (let i = 0; i < radio.length; i++) {
-  radio[i].addEventListener('change', displayStaples);
+for (let i = 0; i < radios.length; i++) {
+  radios[i].addEventListener('change', displayStaples);
 }
 
 async function displayStaples() {
-  const aspect = getSelectedRadioButtonValue(radio);
+  console.log("clicked");
+  const aspect = getSelectedRadioButtonValue(radios);
+  console.log(aspect);
     //these are the decks of the chosen aspect
     const chosenDecks = [];
     // this is a nested list now therefore we're going to iterate by sublist (day)
@@ -36,7 +38,7 @@ async function displayStaples() {
     const cardCounts = chosenDecks.reduce((counts, deck) => {
       const cardsInDeck = Object.entries(deck.slots);
       const filteredCards = cardsInDeck.filter(([cardCode, count]) => {
-        return count > 0 && !heroCardsData.includes(cardCode);
+        return count > 0;
       });
       filteredCards.forEach(([cardCode, count]) => {
         counts[cardCode] = counts[cardCode] || 0;
@@ -58,22 +60,26 @@ async function displayStaples() {
       return { code: cardCode, cardName, cardPhoto, count, percentage };
     });
 
-    const heroHeaderDiv = document.getElementById("hero-header");
+    const heroHeaderDiv = document.getElementById("staple-header");
     const Aspect = capitalize(aspect);
     //clear it in case it's a resubmit
     heroHeaderDiv.innerHTML = `<h2>${Aspect} Staples</h2>`;
 
+    const cardResultsDiv = document.getElementById("staple-results");
+    cardResultsDiv.innerHTML = "";
+    buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect);
+
 }
 
 //unfortunately also can't import this because we have no "synergy percentage" now
-export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
+export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect) {
   const ul = document.createElement('ul');
   
   // sort cardInfo by synergyPercentage in descending order
-  cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage);
+  cardInfo.sort((a, b) => b.percentage - a.percentage);
   
-  cardInfo.forEach(({ code, cardName, cardPhoto, percentage, synergyPercentage }) => {
-    if (code == 0) {
+  cardInfo.forEach(({ code, cardName, cardPhoto, percentage }) => {
+    if (code == 0 || (findAspectByCode(cardsData, code) != aspect)) {
       return;
     }
     const li = document.createElement('li');
@@ -85,12 +91,6 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
       li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
     }
     li.innerHTML += `${percentage}% of ${totalChosenDecks} decks<br>`;
-    //positive vs negative synergy
-    if (synergyPercentage > 0) {
-    li.innerHTML += `+${synergyPercentage}% synergy`;
-    } else {
-    li.innerHTML += `${synergyPercentage}% synergy`;
-    }
     ul.appendChild(li);
   });
   cardResultsDiv.appendChild(ul);

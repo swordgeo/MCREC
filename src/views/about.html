@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MCHREC - About Page</title>
+    <meta name="description" content="About page for MCHREC">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="George Blanchard">
+    <link rel="stylesheet" href="../css/normalize.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/medium.css">
+    <link rel="stylesheet" href="../css/large.css">
+  </head>
+  
+  <body>
+    <header></header>
+
+    <main>
+      <h1>About MCHREC</h1>
+      <p>Inspired by <a href="https://edhrec.com">EDHREC</a>, a tool for playing the Commander variant of Magic The Gathering, MCHREC tries to offer recommendations for your Marvel Champions deck based on the hero and aspect you choose. MCHREC collects data from the API over at the <a href="https://marvelcdb.com/">MarvelCDB</a>, and does some math to determine the most popular and synergistic cards.
+      </p>
+      <h2>What is Marvel Champions?</h2>
+      <p>Marvel Champions is a "Living Card Game" produced by <a href="https://www.fantasyflightgames.com/en/products/marvel-champions-the-card-game/">Fantasy Flight Games</a>, in which 1-4 players cooperatively face off against the villains of the Marvel universe by playing as the iconic heroes we know and love. </p>
+      <p>Your hero deck is constructed - some cards automatically included by playing as your specific hero, with the other cards being chosen by you! For most heroes, you choose one of the game's four "aspects" and fill the remainder of your deck with only cards of your aspect or "basic" universal cards.
+      </p>
+      <h2>Synergy Scores</h2>
+      <p>The synergy score for a card is a measure of how popular a card is for this particular hero, versus in other decks of the same aspect.</p>
+      <p>It's calculated for each card per hero/aspect by first calculating the percentage of decks with the same hero/aspect and that card, and then subtracting the percentage of decks running it on average. A score of -100% synergy means every deck of your aspect runs it, except for decks with your hero. A score of +100% synergy is highly unlikely, but means that every single deck with this hero and aspect runs it, and no others decks do.</p>
+      <h3>What about heroes with unique deckbuilding rules?</h3>
+      <p>There are so far two heroes of the game (Adam Warlock and Spider-Woman), who can (and must!) include cards of multiple aspects in their deck. Two more heroes (Cyclops and Gamora) abide by a single aspect except for certain types of cards that be drawn from other decks. These heroes change the way that we process the data available to us.</p>
+      <p>For Spider-Woman, we pull all of the decks of both of her chosen aspects, and for each card we test them against other decks of its own aspect, while basic cards are tested against both sets. For example, a Spider-Woman aggression/justice deck will test aggression card synergy against other aggression decks, while basic cards will be tested against both aggression and justice decks.</p>
+      <p>For Adam Warlock, we pull every deck, once again testing aspect cards against decks of its own aspect, and basic cards with every deck in the game. For Cyclops and Gamora, we follow the ordinary hero formula, except with cards outside of their aspect being tested against decks of its own aspect.</p>
+      <h2>Support</h2>
+      <p>If you like the website and want to support, I may eventually add a way to do that.</p>
+    </main>
+
+    <footer></footer>
+    <script async type="module" src="../js/staples.js"></script>
+  </body>
+  
+</html>

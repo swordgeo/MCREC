@@ -1,0 +1,6 @@
+{
+  "ignore": [
+    "node_modules",
+    "./src/json/deck_data_sample.json"
+  ]
+}

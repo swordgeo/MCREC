@@ -20,17 +20,17 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
 
   // this is a nested list now therefore we're going to iterate by sublist (day)
   for (const deck of deckListData) {
-      if (deck.investigator_code === "21031a") {
-        chosenDecks.push(deck);
-      } else {
-        innerLoop: for (const aspect of aspects) {
-          if(deck.meta === `{"aspect":"${aspect}"}`) {
-            aspectDecks[aspect].push(deck);
-            aspectDecks["basic"].push(deck);
-            break innerLoop;
-          }
+    if (deck.investigator_code === "21031a") {
+      chosenDecks.push(deck);
+    } else {
+      innerLoop: for (const aspect of aspects) {
+        if(deck.meta === `{"aspect":"${aspect}"}`) {
+          aspectDecks[aspect].push(deck);
+          aspectDecks["basic"].push(deck);
+          break innerLoop;
         }
       }
+    }
   }
 
   const totalChosenDecks = chosenDecks.length;

@@ -2,30 +2,17 @@ import { findNameByCode, findPhotoByCode } from "./utils.js";
 
 export async function processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData) {
 
-  //these are the decks of the chosen hero/aspect
   const chosenDecks = [];
   const aspectDecks = [];
-  // this is a nested list now therefore we're going to iterate by sublist (day)
-  // for (const dayData of deckListData) {
-  //   for (const deck of dayData) {
-  //     //for most heroes we search by hero and aspect combination
-  //     //Adam Warlock and Spider-Woman will complicate this.
-  //     if (deck.investigator_code === herocode && deck.meta == `{"aspect":"${heroAspect}"}`) {
-  //       chosenDecks.push(deck);
-  //     }
-  //   }
-  // }
 
-    for (const deck of deckListData) {
-      //for most heroes we search by hero and aspect combination
-      //Adam Warlock and Spider-Woman will complicate this.
-      
-      if (deck.investigator_code === herocode && deck.meta == `{"aspect":"${heroAspect}"}`) {
-        chosenDecks.push(deck);
-      } else if (deck.meta == `{"aspect":"${heroAspect}"}`) {
-        //these are the decks that match the aspect and NOT the hero
-        aspectDecks.push(deck);
-      }
+  for (const deck of deckListData) {
+    //for most heroes we search by hero and aspect combination
+    if (deck.investigator_code === herocode && deck.meta == `{"aspect":"${heroAspect}"}`) {
+      chosenDecks.push(deck);
+    } else if (deck.meta == `{"aspect":"${heroAspect}"}`) {
+      //these are the decks that match the aspect and NOT the hero
+      aspectDecks.push(deck);
+    }
   }
   
   const totalChosenDecks = chosenDecks.length;

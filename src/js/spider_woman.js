@@ -26,19 +26,19 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCards
   
 
   for (const deck of deckListData) {
-      if (deck.investigator_code === "04031a" && 
-      (deck.meta === `{"aspect":"${heroAspect}","aspect2":"${heroAspect2}"}` || 
-      deck.meta === `{"aspect":"${heroAspect2}","aspect2":"${heroAspect}"}`)) {
-        chosenDecks.push(deck);
-        // aspectDecks["basic"].push(deck);
-      } else if (deck.meta == `{"aspect":"${heroAspect}"}`) {
-        // console.log(aspectDecks[heroAspect])
-        aspectDecks[heroAspect].push(deck);
-        aspectDecks["basic"].push(deck);
-      } else if (deck.meta == `{"aspect":"${heroAspect2}"}`) {
-        aspectDecks[heroAspect2].push(deck);
-        aspectDecks["basic"].push(deck);
-      }
+    if (deck.investigator_code === "04031a" && 
+    (deck.meta === `{"aspect":"${heroAspect}","aspect2":"${heroAspect2}"}` || 
+    deck.meta === `{"aspect":"${heroAspect2}","aspect2":"${heroAspect}"}`)) {
+      chosenDecks.push(deck);
+      // aspectDecks["basic"].push(deck);
+    } else if (deck.meta == `{"aspect":"${heroAspect}"}`) {
+      // console.log(aspectDecks[heroAspect])
+      aspectDecks[heroAspect].push(deck);
+      aspectDecks["basic"].push(deck);
+    } else if (deck.meta == `{"aspect":"${heroAspect2}"}`) {
+      aspectDecks[heroAspect2].push(deck);
+      aspectDecks["basic"].push(deck);
+    }
   }
   // "meta": "{\"aspect\":\"justice\",\"aspect2\":\"leadership\"}"
 

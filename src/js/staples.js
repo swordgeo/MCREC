@@ -26,12 +26,10 @@ async function displayStaples() {
     //these are the decks of the chosen aspect
     const chosenDecks = [];
     // this is a nested list now therefore we're going to iterate by sublist (day)
-    for (const dayData of deckListData) {
-      for (const deck of dayData) {
-        //if basic is selected it doesn't matter, otherwise match aspect
-        if (aspect == "basic" || deck.meta == `{"aspect":"${aspect}"}`) {
-          chosenDecks.push(deck);
-        }
+    for (const deck of deckListData) {
+      //if basic is selected it doesn't matter, otherwise match aspect
+      if (aspect == "basic" || deck.meta == `{"aspect":"${aspect}"}`) {
+        chosenDecks.push(deck);
       }
     }
 

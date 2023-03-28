@@ -25,8 +25,7 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCards
 
   
 
-  for (const dayData of deckListData) {
-    for (const deck of dayData) {
+  for (const deck of deckListData) {
       if (deck.investigator_code === "04031a" && 
       (deck.meta === `{"aspect":"${heroAspect}","aspect2":"${heroAspect2}"}` || 
       deck.meta === `{"aspect":"${heroAspect2}","aspect2":"${heroAspect}"}`)) {
@@ -40,7 +39,6 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCards
         aspectDecks[heroAspect2].push(deck);
         aspectDecks["basic"].push(deck);
       }
-    }
   }
   // "meta": "{\"aspect\":\"justice\",\"aspect2\":\"leadership\"}"
 

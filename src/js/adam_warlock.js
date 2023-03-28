@@ -19,8 +19,7 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
   };
 
   // this is a nested list now therefore we're going to iterate by sublist (day)
-  for (const dayData of deckListData) {
-    for (const deck of dayData) {
+  for (const deck of deckListData) {
       if (deck.investigator_code === "21031a") {
         chosenDecks.push(deck);
       } else {
@@ -32,7 +31,6 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
           }
         }
       }
-    }
   }
 
   const totalChosenDecks = chosenDecks.length;

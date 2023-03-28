@@ -4,30 +4,33 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, deck
 
   //these are the decks of the chosen hero/aspect
   const chosenDecks = [];
+  const aspectDecks = [];
   // this is a nested list now therefore we're going to iterate by sublist (day)
-  for (const dayData of deckListData) {
-    for (const deck of dayData) {
+  // for (const dayData of deckListData) {
+  //   for (const deck of dayData) {
+  //     //for most heroes we search by hero and aspect combination
+  //     //Adam Warlock and Spider-Woman will complicate this.
+  //     if (deck.investigator_code === herocode && deck.meta == `{"aspect":"${heroAspect}"}`) {
+  //       chosenDecks.push(deck);
+  //     }
+  //   }
+  // }
+
+    for (const deck of deckListData) {
       //for most heroes we search by hero and aspect combination
       //Adam Warlock and Spider-Woman will complicate this.
+      
       if (deck.investigator_code === herocode && deck.meta == `{"aspect":"${heroAspect}"}`) {
         chosenDecks.push(deck);
+      } else if (deck.meta == `{"aspect":"${heroAspect}"}`) {
+        //these are the decks that match the aspect and NOT the hero
+        aspectDecks.push(deck);
       }
-    }
   }
   
-  //these are the decks that match the aspect and NOT the hero
-  const aspectDecks = [];
-  for (const dayData of deckListData) {
-    for (const deck of dayData) {
-      if (deck.investigator_code !== herocode && deck.meta === `{"aspect":"${heroAspect}"}`) {
-      aspectDecks.push(deck);
-      }
-    }
-  }
-
+  const totalChosenDecks = chosenDecks.length;
   const aspectDeckCount = aspectDecks.length;
 
- 
   const cardCounts = chosenDecks.reduce((counts, deck) => {
     const cardsInDeck = Object.entries(deck.slots);
     const filteredCards = cardsInDeck.filter(([cardCode, count]) => {
@@ -40,8 +43,6 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, deck
     return counts;
   }, {});
 
-  const totalChosenDecks = chosenDecks.length;
-  
   const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
     const cardName = findNameByCode(cardsData, cardCode);
     const cardPhoto = findPhotoByCode(cardsData, cardCode);

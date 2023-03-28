@@ -1,5 +1,5 @@
 import { createRadios } from "./hero_selector.js";
-import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, getJSON, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from "./utils.js";
+import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter, setLocalStorage, stripQuotes } from "./utils.js";
 
 const deckListData = await getJSON("/json/deck_data_sample.json");
 const cardsData = await getJSON("/json/card_data_sample.json");
@@ -16,13 +16,21 @@ const radios = document.getElementsByName("staple-radio");
 
 // createRadios(radioName)
 for (let i = 0; i < radios.length; i++) {
-  radios[i].addEventListener('change', displayStaples);
+  radios[i].addEventListener('change', receiveClick);
 }
 
-async function displayStaples() {
-  console.log("clicked");
-  const aspect = getSelectedRadioButtonValue(radios);
-  console.log(aspect);
+const currentStorage = getLocalStorage("staple");
+if (currentStorage.aspect) {
+  displayStaples(currentStorage.aspect);
+}
+
+
+async function receiveClick() {
+  displayStaples(getSelectedRadioButtonValue(radios));
+}
+
+
+async function displayStaples(aspect) {
     //these are the decks of the chosen aspect
     const chosenDecks = [];
     // this is a nested list now therefore we're going to iterate by sublist (day)
@@ -67,7 +75,9 @@ async function displayStaples() {
     cardResultsDiv.innerHTML = "";
     buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect);
 
+    setLocalStorage("staple", {aspect});
 }
+
 
 //unfortunately also can't import this because we have no "synergy percentage" now
 export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect) {
@@ -84,7 +94,7 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect)
     li.innerHTML = `<p id="${code}">${cardName}</p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
-      li.innerHTML += `<img src="/images/Trollface_non-free.png"><br>`;
+      li.innerHTML += `<img src="/images/not_found.png"><br>`;
     } else {
       li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
     }

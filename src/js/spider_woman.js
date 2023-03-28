@@ -1,13 +1,13 @@
 import {buildCardDiv} from './process_heroes.js';
-import { findAspectByCode, findNameByCode, findPhotoByCode } from "./utils.js";
+import { findAspectByCode, findNameByCode, findPhotoByCode, setLocalStorage } from "./utils.js";
 // "04031a"
 export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData) {
 
-  console.log(`Here we are with ${heroAspect} and ${heroAspect2}`);
+  // console.log(`Here we are with ${heroAspect} and ${heroAspect2}`);
 
   const chosenDecks = [];
 
-  let aspects = ["aggression", "justice", "leadership", "protection"]
+  // let aspects = ["aggression", "justice", "leadership", "protection"]
 
   const aspectDecks = {
     // "aggression": [],
@@ -95,6 +95,8 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCards
   const cardResultsDiv = document.getElementById("card-results");
   cardResultsDiv.innerHTML = '';
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
+
+  setLocalStorage("hero/aspect", {"herocode": "04031a", heroAspect, heroAspect2});
 }
 
 //built original because of lacking aspects

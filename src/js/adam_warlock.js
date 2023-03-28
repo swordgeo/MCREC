@@ -1,7 +1,7 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
 import { buildCardDiv } from './process_heroes.js';
-import { findAspectByCode, findNameByCode, findPhotoByCode } from './utils.js';
+import { findAspectByCode, findNameByCode, findPhotoByCode, setLocalStorage } from './utils.js';
 // "cardcode":"21031a"
 export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
   // console.log("Here we are at Adam Warlock");
@@ -47,16 +47,11 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
     return counts;
   }, {});
 
-
-
-
   const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
     const cardName = findNameByCode(cardsData, cardCode);
     const cardPhoto = findPhotoByCode(cardsData, cardCode);
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
     const cardAspect = findAspectByCode(cardsData, cardCode);
-    // console.log(cardAspect);
-    // console.log(aspectDecks[cardAspect]);
     const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
     const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
     const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
@@ -69,12 +64,13 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
   const heroHeaderDiv = document.getElementById("hero-header");
   //clear it in case it's a resubmit
   heroHeaderDiv.innerHTML = '';
-  // const heroName = findNameByCode(cardsData, herocode);
   buildHeroHeader(totalChosenDecks, heroHeaderDiv);
 
   const cardResultsDiv = document.getElementById("card-results");
   cardResultsDiv.innerHTML = '';
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
+
+  setLocalStorage("hero/aspect", {"herocode": "21031a"});
 }
 
 //built original because of lacking aspects

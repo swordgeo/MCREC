@@ -3,6 +3,7 @@
 
 //does nothing but capitalizes the first letter of the word provided
 export function capitalize(string) {
+  
   const firstChar = string.charAt(0).toUpperCase();
   const finalWord = firstChar + string.slice(1);
   return finalWord;
@@ -40,6 +41,13 @@ export async function getJSON(url) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.json();
+}
+
+// retrieve data from localstorage
+export function getLocalStorage(key) {
+  const item = localStorage.getItem(key);
+  //If there is no localStorage, return empty array
+  return item ? JSON.parse(item) : [];
 }
 
 
@@ -95,6 +103,18 @@ export function renderWithTemplate(
     callback(data);
   }
 }
+
+
+// save data to local storage
+export function setLocalStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+
+export function stripQuotes(string) {
+  return string.replace(/['"]+/g, '');
+}
+
 
 function toggleMenu() {
   // console.log("toggleMenu called");

@@ -2,7 +2,7 @@ import { processHeroDecks } from './process_heroes.js';
 import { processAdamWarlockDecks } from './adam_warlock.js';
 import { processSpiderWomanDecks } from './spider_woman.js';
 import { createHeroSelector } from './hero_selector.js';
-import { disableRadios, getJSON, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from './utils.js';
+import { disableRadios, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from './utils.js';
 
 
 const heroNamesData = await getJSON('/json/hero_names.json');
@@ -15,6 +15,9 @@ loadHeaderFooter().then(header => {
   hamburger(header);
 });
 
+
+//   
+// }
 // const heroName = "Doctor Strange";
 // const heroAspect = "aggression";
 // await processHeroDecks(heroName, heroAspect, heroCardsData, deckListData, cardsData);
@@ -39,13 +42,18 @@ for (let i = 0; i < radio2.length; i++) {
 }
 submitButton.addEventListener('click', handleSubmit);
 
+//let's remember their last choice and load it for them automatically
+const currentStorage = getLocalStorage("hero/aspect");
+console.log(currentStorage);
+console.log(currentStorage.herocode);
+if (currentStorage.herocode == "21031a") { //Adam Warlock
+  await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
+} else if (currentStorage.herocode == "04031a") { //Spider-Woman
+  await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2, heroCardsData, deckListData, cardsData);
+} else if (currentStorage.herocode && currentStorage.heroAspect) {
+  await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroCardsData, deckListData, cardsData);
+}
 
-//Check for Spider-Woman -> create a second radio button
-//Check for Adam Warlock -> disable the first radio button!
-
-//Maybe add a big fat button to SHOW RESULTS or whatever.
-
-//Pass in as heroName and heroAspect for processHeroDecks
 
 // Function to handle selection changes
 function handleSelectionChange() {
@@ -81,7 +89,6 @@ function handleSelectionChange() {
     submitButton.disabled = true;
   }
 }
-
 
 
 async function handleSubmit(event) {

@@ -1,4 +1,4 @@
-import { findNameByCode, findPhotoByCode } from "./utils.js";
+import { findNameByCode, findPhotoByCode, setLocalStorage } from "./utils.js";
 
 export async function processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData) {
 
@@ -52,13 +52,16 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, deck
   const cardResultsDiv = document.getElementById("card-results");
   cardResultsDiv.innerHTML = '';
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
+  setLocalStorage("hero/aspect", {herocode, heroAspect});
 }
+
 
 function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) {
   const heroHeader = document.createElement('h3');
   heroHeader.textContent = `Selected Hero: ${heroName} (${totalChosenDecks} ${heroAspect} decks)`;
   heroHeaderDiv.appendChild(heroHeader);
 }
+
 
 export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   const ul = document.createElement('ul');
@@ -74,7 +77,7 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
     li.innerHTML = `<p id="${code}">${cardName}</p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
-      li.innerHTML += `<img src="/images/Trollface_non-free.png"><br>`;
+      li.innerHTML += `<img src="/images/not_found.png"><br>`;
     } else {
       li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
     }

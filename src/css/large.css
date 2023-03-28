@@ -1,6 +1,6 @@
 @media (min-width: 60em) {
 
-  header button {display: none;}
+  #smallNav {display: none;}
 
   nav {
     /* background-color: #7bd3e0; */
@@ -14,11 +14,6 @@
   nav ul li a {
     border: none;
   }
-
-
-
-
-
 
 
 

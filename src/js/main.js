@@ -44,8 +44,8 @@ submitButton.addEventListener('click', handleSubmit);
 
 //let's remember their last choice and load it for them automatically
 const currentStorage = getLocalStorage("hero/aspect");
-console.log(currentStorage);
-console.log(currentStorage.herocode);
+// console.log(currentStorage);
+// console.log(currentStorage.herocode);
 if (currentStorage.herocode == "21031a") { //Adam Warlock
   await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
 } else if (currentStorage.herocode == "04031a") { //Spider-Woman

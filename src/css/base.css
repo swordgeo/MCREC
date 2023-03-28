@@ -1,5 +1,4 @@
 
-
 img {
   max-width: 100%;
 }
@@ -14,9 +13,20 @@ img {
   /*align-items: center;*/
 }
 
+section, div {
+  margin: 5px;
+}
+
 
 
 /* hamburger navigation */
+
+#smallNav {
+  display: flex;
+  justify-content: space-between;
+}
+
+
 
 #hamburgerBtn {
   align-items: center;
@@ -24,7 +34,6 @@ img {
 }
 
 nav button {
-  
   margin: .2rem 2vw;
   background: transparent;
   border: none;
@@ -42,7 +51,7 @@ nav ul {
   margin: 0;
 }
 
-nav ul li a {
+nav ul li a, #mainLink {
   display: block;
   padding: .8rem 2vw;
   text-decoration: none;
@@ -55,7 +64,7 @@ nav ul li.active a {
   color: #fff;
 }
 
-nav ul li a:hover {
+nav ul li a:hover, #mainLink:hover {
   background-color: rgba(0,0,0,0.3);
 }
 
@@ -68,14 +77,44 @@ nav ul.open {display: block;}
 #hamburgerBtn.open span:nth-child(1) {display: none;}
 #hamburgerBtn.open span:nth-child(2) {display: block;}
 
-/* hamburger navigation */
+/* end hamburger navigation */
 
 
-
+/* hero page */
 #aspect2 {
   display: none;
 }
 
-/* #hero-selector option[value="04031a"]:checked ~ #aspect2 {
-  display: block;
-} */
+#card-results ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#card-results ul li {
+  max-width: 90%;
+  border: 1px solid #000;
+  padding: 2px; 
+  align-items: center;
+  margin: auto;
+}
+
+#card-results ul li img {
+  /* this seems to be the smallest size of the images
+  this will keep them uniform */
+  max-width: 90%;
+  max-width: 300px;
+}
+
+#submitBtn {
+  padding: 5px 10px 5px 10px;
+}
+
+
+
+input {
+  margin: 3px;
+}
+
+
+/* end hero page */

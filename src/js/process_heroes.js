@@ -74,7 +74,8 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
       return;
     }
     const li = document.createElement('li');
-    li.innerHTML = `<p id="${code}">${cardName}</p>`;
+    li.setAttribute('class', 'center');
+    li.innerHTML = `<p id="${code}"><strong>${cardName}</strong></p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
       li.innerHTML += `<img src="/images/not_found.png"><br>`;

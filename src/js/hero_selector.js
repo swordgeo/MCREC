@@ -2,7 +2,11 @@ import { capitalize } from "./utils.js";
 
 export async function createHeroSelector(heroCardsData) {
   const selectorSection = document.querySelector("#hero-select");
+  
   const selectorDiv = document.createElement("div");
+  selectorDiv.setAttribute("id", "hero");
+  
+  
 
   //Make a selector for all the heroes, id is their hero code, visible is their hero name
 

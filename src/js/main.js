@@ -51,7 +51,7 @@ if (currentStorage.herocode == "21031a") { //Adam Warlock
 } else if (currentStorage.herocode == "04031a") { //Spider-Woman
   await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2, heroCardsData, deckListData, cardsData);
 } else if (currentStorage.herocode && currentStorage.heroAspect) {
-  await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroCardsData, deckListData, cardsData);
+  await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
 }
 
 
@@ -102,6 +102,6 @@ async function handleSubmit(event) {
     const heroAspect2 = getSelectedRadioButtonValue(radio2);
     await processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData);
   } else {
-    await processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData);
+    await processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
   }
 }

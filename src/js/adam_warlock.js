@@ -52,12 +52,20 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
     const cardPhoto = findPhotoByCode(cardsData, cardCode);
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
     const cardAspect = findAspectByCode(cardsData, cardCode);
-    const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
-    const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
-    const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
-    const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
-    return { code: cardCode, cardName, cardPhoto, count, percentage: heroAndAspectPercentage, synergyPercentage };
-  });
+    // console.log(cardAspect);
+    // need to do an if statement because apparently there are naughty people who put leadership cards inside of aggression/justice decks and break my code
+    if (aspectDecks[cardAspect]) {
+      // console.log(aspectDecks[cardAspect]);
+      const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
+      const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
+      const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
+      const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
+      return { code: cardCode, cardName, cardPhoto, count, percentage: heroAndAspectPercentage, synergyPercentage };
+    } else {
+      // code: 0 will skip the card during buildCardDiv
+      return { code: 0, cardName, cardPhoto, count, percentage: 0, synergyPercentage: 0 };
+    }
+  });  
 
   //Let's shoot the template literals into two different functions
   //Header and cards

@@ -1,6 +1,6 @@
-import { findNameByCode, findPhotoByCode, setLocalStorage } from "./utils.js";
+import { findHeroByCode, findNameByCode, findPhotoByCode, setLocalStorage } from "./utils.js";
 
-export async function processHeroDecks(herocode, heroAspect, heroCardsData, deckListData, cardsData) {
+export async function processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData) {
 
   const chosenDecks = [];
   const aspectDecks = [];
@@ -46,7 +46,7 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, deck
   const heroHeaderDiv = document.getElementById("hero-header");
   //clear it in case it's a resubmit
   heroHeaderDiv.innerHTML = '';
-  const heroName = findNameByCode(cardsData, herocode);
+  const heroName = findHeroByCode(heroNamesData, herocode);
   buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv);
 
   const cardResultsDiv = document.getElementById("card-results");

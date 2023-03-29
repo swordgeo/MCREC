@@ -17,7 +17,7 @@ function filterOldDecks(decks) {
 }
 
 async function ripDeckData(outfileName) {
-  const daysToFetch = 90;
+  const daysToFetch = 180;
 
   let start_date;
   if (fs.existsSync(outfileName)) {

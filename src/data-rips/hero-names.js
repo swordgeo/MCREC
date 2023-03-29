@@ -21,7 +21,7 @@ nestedDecks.forEach((decks) => {
     if (!distinctInvestigators[investigator_code]) {
       // If not, add a new entry to the object
       distinctInvestigators[investigator_code] = {
-        cardcode: investigator_code,
+        code: investigator_code,
         heroname: investigator_name
       };
     }

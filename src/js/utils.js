@@ -23,6 +23,12 @@ export function findAspectByCode(cardsData, code) {
 }
 
 
+export function findHeroByCode(heroNamesData, code) {
+  const heroObj = heroNamesData.find(card => card.code === code);
+  return heroObj ? heroObj.heroname : null;
+}
+
+
 export function findNameByCode(cardsData, code) {
   const cardObj = cardsData.find(card => card.code === code);
   return cardObj ? cardObj.name : null;

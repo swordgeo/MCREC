@@ -18,9 +18,9 @@ export async function createHeroSelector(heroCardsData) {
   heroSelect.innerHTML = `<option value="none" selected disabled hidden>Choose your hero</option>`;
 
   for (const hero of heroCardsData) {
-    //heroname, cardcode
+    //heroname, code
     const option = document.createElement("option");
-    option.setAttribute("value", hero.cardcode);
+    option.setAttribute("value", hero.code);
     option.textContent = hero.heroname;
     heroSelect.appendChild(option);
   }

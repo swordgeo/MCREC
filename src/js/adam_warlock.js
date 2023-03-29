@@ -1,7 +1,7 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
 import { buildCardDiv } from './process_heroes.js';
-import { findAspectByCode, findNameByCode, findPhotoByCode, setLocalStorage } from './utils.js';
+import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, setLocalStorage } from './utils.js';
 // "cardcode":"21031a"
 export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
   // console.log("Here we are at Adam Warlock");
@@ -48,11 +48,11 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
   }, {});
 
   const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
+    const cardAspect = findAspectByCode(cardsData, cardCode);
     const cardName = findNameByCode(cardsData, cardCode);
     const cardPhoto = findPhotoByCode(cardsData, cardCode);
+    const cardUrl = findURLByCode(cardsData, cardCode);
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
-    const cardAspect = findAspectByCode(cardsData, cardCode);
-    // console.log(cardAspect);
     // need to do an if statement because apparently there are naughty people who put leadership cards inside of aggression/justice decks and break my code
     if (aspectDecks[cardAspect]) {
       // console.log(aspectDecks[cardAspect]);
@@ -60,10 +60,10 @@ export async function processAdamWarlockDecks(heroCardsData, deckListData, cards
       const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
       const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
       const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
-      return { code: cardCode, cardName, cardPhoto, count, percentage: heroAndAspectPercentage, synergyPercentage };
+      return { code: cardCode, cardName, cardPhoto, percentage: heroAndAspectPercentage, synergyPercentage, cardUrl };
     } else {
       // code: 0 will skip the card during buildCardDiv
-      return { code: 0, cardName, cardPhoto, count, percentage: 0, synergyPercentage: 0 };
+      return { code: 0, cardName, cardPhoto, percentage: 0, synergyPercentage: 0 };
     }
   });  
 

@@ -41,6 +41,12 @@ export function findPhotoByCode(cardsData, code) {
 }
 
 
+export function findURLByCode(cardsData, code) {
+  const cardObj = cardsData.find(card => card.code === code);
+  return cardObj ? cardObj.url : null;
+}
+
+
 export async function getJSON(url) {
   const response = await fetch(url);
   if (!response.ok) {

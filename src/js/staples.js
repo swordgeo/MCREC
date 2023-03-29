@@ -1,5 +1,5 @@
 import { createRadios } from "./hero_selector.js";
-import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter, setLocalStorage, stripQuotes } from "./utils.js";
+import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter, setLocalStorage, stripQuotes } from "./utils.js";
 
 const deckListData = await getJSON("/json/deck_data_sample.json");
 const cardsData = await getJSON("/json/card_data_sample.json");
@@ -60,10 +60,11 @@ async function displayStaples(aspect) {
     const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
       const cardName = findNameByCode(cardsData, cardCode);
       const cardPhoto = findPhotoByCode(cardsData, cardCode);
+      const cardUrl = findURLByCode(cardsData, cardCode);
       const aspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
       const percentage = Math.round((aspectCount / totalChosenDecks) * 100);
 
-      return { code: cardCode, cardName, cardPhoto, count, percentage };
+      return { code: cardCode, cardName, cardPhoto, percentage, cardUrl };
     });
 
     const heroHeaderDiv = document.getElementById("staple-header");
@@ -86,12 +87,12 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect)
   // sort cardInfo by synergyPercentage in descending order
   cardInfo.sort((a, b) => b.percentage - a.percentage);
   
-  cardInfo.forEach(({ code, cardName, cardPhoto, percentage }) => {
+  cardInfo.forEach(({ code, cardName, cardPhoto, percentage, cardUrl }) => {
     if (code == 0 || (findAspectByCode(cardsData, code) != aspect)) {
       return;
     }
     const li = document.createElement('li');
-    li.innerHTML = `<p id="${code}">${cardName}</p>`;
+    li.innerHTML = `<p id="${code}"><a href="${cardUrl}"><strong>${cardName}</strong></a></p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
       li.innerHTML += `<img src="/images/not_found.png"><br>`;

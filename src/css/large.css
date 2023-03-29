@@ -1,19 +1,8 @@
 @media (min-width: 60em) {
 
-  #smallNav {display: none;}
-
-  nav {
-    /* background-color: #7bd3e0; */
-  }
-
-  nav ul#primaryNav {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  nav ul li a {
-    border: none;
-  }
+  /* body {
+    background-color: green;
+  } */
 
 
 

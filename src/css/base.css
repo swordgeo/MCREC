@@ -96,21 +96,19 @@ nav ul.open {display: block;}
   border: 1px solid #000;
   padding: 2px; 
   align-items: center;
-  margin: auto;
+  margin: 15px;
 }
 
 #card-results ul li img {
   /* this seems to be the smallest size of the images
   this will keep them uniform */
-  max-width: 90%;
+  width: 90%;
   max-width: 300px;
 }
 
 #submitBtn {
   padding: 5px 10px 5px 10px;
 }
-
-
 
 input {
   margin: 3px;

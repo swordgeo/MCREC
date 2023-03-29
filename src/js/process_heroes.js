@@ -1,4 +1,4 @@
-import { findHeroByCode, findNameByCode, findPhotoByCode, setLocalStorage } from "./utils.js";
+import { findHeroByCode, findNameByCode, findPhotoByCode, findURLByCode, setLocalStorage } from "./utils.js";
 
 export async function processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData) {
 
@@ -33,12 +33,13 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, hero
   const cardInfo = Object.entries(cardCounts).map(([cardCode, count]) => {
     const cardName = findNameByCode(cardsData, cardCode);
     const cardPhoto = findPhotoByCode(cardsData, cardCode);
+    const cardUrl = findURLByCode(cardsData, cardCode);
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
     const aspectCount = aspectDecks.filter(deck => deck.slots[cardCode] > 0).length;
     const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
     const aspectPercentage = Math.round((aspectCount / aspectDeckCount) * 100);
     const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
-    return { code: cardCode, cardName, cardPhoto, count, percentage: heroAndAspectPercentage, synergyPercentage };
+    return { code: cardCode, cardName, cardPhoto, percentage: heroAndAspectPercentage, synergyPercentage, cardUrl };
   });
 
   //Let's shoot the template literals into two different functions
@@ -65,17 +66,18 @@ function buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv) 
 
 export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   const ul = document.createElement('ul');
+  ul.setAttribute('class', 'center');
   
   // sort cardInfo by synergyPercentage in descending order
   cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage);
   
-  cardInfo.forEach(({ code, cardName, cardPhoto, percentage, synergyPercentage }) => {
+  cardInfo.forEach(({ code, cardName, cardPhoto, percentage, synergyPercentage, cardUrl }) => {
     if (code == 0) {
       return;
     }
     const li = document.createElement('li');
     li.setAttribute('class', 'center');
-    li.innerHTML = `<p id="${code}"><strong>${cardName}</strong></p>`;
+    li.innerHTML = `<p id="${code}"><a href="${cardUrl}"><strong>${cardName}</strong></a></p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
       li.innerHTML += `<img src="/images/not_found.png"><br>`;

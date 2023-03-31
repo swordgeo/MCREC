@@ -1,10 +1,15 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
 import { buildCardDiv } from './process_heroes.js';
-import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, setLocalStorage } from './utils.js';
+import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from './utils.js';
 // "cardcode":"21031a"
-export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
+// export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
+export async function processAdamWarlockDecks() {
   // console.log("Here we are at Adam Warlock");
+
+  const heroCardsData = await getJSON('/json/hero_cards_list.json');
+  const deckListData = await getJSON('/json/deck_data_sample.json');
+  const cardsData = await getJSON('/json/card_data_sample.json');
 
   const chosenDecks = [];
 

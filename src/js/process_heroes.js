@@ -1,6 +1,11 @@
-import { findHeroByCode, findNameByCode, findPhotoByCode, findURLByCode, setLocalStorage } from "./utils.js";
+import { findHeroByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
 
-export async function processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData) {
+// export async function processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData) {
+export async function processHeroDecks(herocode, heroAspect, heroNamesData) {
+
+  const heroCardsData = await getJSON('/json/hero_cards_list.json');
+  const deckListData = await getJSON('/json/deck_data_sample.json');
+  const cardsData = await getJSON('/json/card_data_sample.json');
 
   const chosenDecks = [];
   const aspectDecks = [];
@@ -40,7 +45,10 @@ export async function processHeroDecks(herocode, heroAspect, heroCardsData, hero
     const aspectPercentage = Math.round((aspectCount / aspectDeckCount) * 100);
     const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
     return { code: cardCode, cardName, cardPhoto, percentage: heroAndAspectPercentage, synergyPercentage, cardUrl };
-  });
+  })
+  .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5
+  .sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
+  .slice(0, 50); // keep only the top 50 entries
 
   //Let's shoot the template literals into two different functions
   //Header and cards
@@ -68,9 +76,6 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
   const ul = document.createElement('ul');
   ul.setAttribute('class', 'center');
   
-  // sort cardInfo by synergyPercentage in descending order
-  cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage);
-  
   cardInfo.forEach(({ code, cardName, cardPhoto, percentage, synergyPercentage, cardUrl }) => {
     if (code == 0) {
       return;
@@ -80,9 +85,9 @@ export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv) {
     li.innerHTML = `<p id="${code}"><a href="${cardUrl}"><strong>${cardName}</strong></a></p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {
-      li.innerHTML += `<img src="/images/not_found.png"><br>`;
+      li.innerHTML += `<img src="/images/not_found.png" alt="Image of ${cardName}"><br>`;
     } else {
-      li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}"><br>`;
+      li.innerHTML += `<img src="https://marvelcdb.com/${cardPhoto}" alt="Image of ${cardName}"><br>`;
     }
     li.innerHTML += `${percentage}% of ${totalChosenDecks} decks<br>`;
     //positive vs negative synergy

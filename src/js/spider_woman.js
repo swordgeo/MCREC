@@ -1,7 +1,12 @@
 import {buildCardDiv} from './process_heroes.js';
-import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, setLocalStorage } from "./utils.js";
+import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
 // "04031a"
-export async function processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData) {
+export async function processSpiderWomanDecks(heroAspect, heroAspect2) {
+
+
+  const heroCardsData = await getJSON('/json/hero_cards_list.json');
+  const deckListData = await getJSON('/json/deck_data_sample.json');
+  const cardsData = await getJSON('/json/card_data_sample.json');
 
   const chosenDecks = [];
 

@@ -6,9 +6,9 @@ import { disableRadios, getJSON, getLocalStorage, getSelectedRadioButtonValue, h
 
 
 const heroNamesData = await getJSON('/json/hero_names.json');
-const heroCardsData = await getJSON('/json/hero_cards_list.json');
-const deckListData = await getJSON('/json/deck_data_sample.json');
-const cardsData = await getJSON('/json/card_data_sample.json');
+// const heroCardsData = await getJSON('/json/hero_cards_list.json');
+// const deckListData = await getJSON('/json/deck_data_sample.json');
+// const cardsData = await getJSON('/json/card_data_sample.json');
 
 
 loadHeaderFooter().then(header => {
@@ -47,11 +47,14 @@ const currentStorage = getLocalStorage("hero/aspect");
 // console.log(currentStorage);
 // console.log(currentStorage.herocode);
 if (currentStorage.herocode == "21031a") { //Adam Warlock
-  await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
+  // await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
+  await processAdamWarlockDecks();
 } else if (currentStorage.herocode == "04031a") { //Spider-Woman
-  await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2, heroCardsData, deckListData, cardsData);
+  // await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2, heroCardsData, deckListData, cardsData);
+  await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2);
 } else if (currentStorage.herocode && currentStorage.heroAspect) {
-  await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
+  // await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
+  await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroNamesData);
 }
 
 
@@ -97,11 +100,14 @@ async function handleSubmit(event) {
   const heroAspect = getSelectedRadioButtonValue(radio1);
 
   if (herocode == "21031a") { //Adam Warlock
-    await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
+    // await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
+    await processAdamWarlockDecks();
   } else if (herocode == "04031a") { //Spider-Woman
     const heroAspect2 = getSelectedRadioButtonValue(radio2);
-    await processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData);
+    // await processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData);
+    await processSpiderWomanDecks(heroAspect, heroAspect2);
   } else {
-    await processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
+    // await processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
+    await processHeroDecks(herocode, heroAspect, heroNamesData);
   }
 }

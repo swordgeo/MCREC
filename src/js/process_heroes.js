@@ -48,18 +48,17 @@ export async function processHeroDecks(herocode, heroAspect, heroNamesData) {
   })
   .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5
   .sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
-  .slice(0, 50); // keep only the top 50 entries
 
   //Let's shoot the template literals into two different functions
   //Header and cards
   const heroHeaderDiv = document.getElementById("hero-header");
   //clear it in case it's a resubmit
-  heroHeaderDiv.innerHTML = '';
+  heroHeaderDiv.innerHTML = "";
   const heroName = findHeroByCode(heroNamesData, herocode);
   buildHeroHeader(heroName, heroAspect, totalChosenDecks, heroHeaderDiv);
 
   const cardResultsDiv = document.getElementById("card-results");
-  cardResultsDiv.innerHTML = '';
+  cardResultsDiv.innerHTML = "";
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
   setLocalStorage("hero/aspect", {herocode, heroAspect});
 }

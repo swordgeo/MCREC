@@ -23,12 +23,12 @@
     grid-template-columns: 1fr 1fr;
   } */
 
-  #card-results ul {
+  #card-results ul, #staple-results ul{
     display: flex;
     flex-wrap: wrap;
   }
 
-  #card-results ul li {
+  #card-results ul li, #staple-results ul li {
     max-width: 99%;
   }
 }

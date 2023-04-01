@@ -67,7 +67,6 @@ async function displayStaples(aspect) {
     })
     .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5
     .sort((a, b) => b.percentage - a.percentage) // sort by percentage from highest to lowest
-    .slice(0, 50); // keep only the top 50 entries
 
     cardInfo.sort((a, b) => b.percentage - a.percentage);
 
@@ -87,12 +86,14 @@ async function displayStaples(aspect) {
 //unfortunately also can't import this because we have no "synergy percentage" now
 export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect) {
   const ul = document.createElement('ul');
+  ul.setAttribute('class', 'center');
   
   cardInfo.forEach(({ code, cardName, cardPhoto, percentage, cardUrl }) => {
     if (code == 0 || (findAspectByCode(cardsData, code) != aspect)) {
       return;
     }
     const li = document.createElement('li');
+    li.setAttribute('class', 'center');
     li.innerHTML = `<p id="${code}"><a href="${cardUrl}"><strong>${cardName}</strong></a></p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {

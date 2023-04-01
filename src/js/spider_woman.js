@@ -67,7 +67,10 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2) {
     } else {
       return { code: 0 }
     }
-  });
+  })
+  .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5
+  .sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
+  .slice(0, 50); // keep only the top 50 entries 
 
   //Let's shoot the template literals into two different functions
   //Header and cards

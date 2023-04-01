@@ -1,5 +1,4 @@
 
-// const fs = require('fs');
 import fs from "fs";
 import fetch from 'node-fetch';
 import { DateTime } from 'luxon';
@@ -15,6 +14,7 @@ function filterOldDecks(decks) {
     return date >= oldestDateToKeep;
   });
 }
+
 
 async function ripDeckData(outfileName) {
   const daysToFetch = 180;
@@ -71,6 +71,29 @@ async function ripDeckData(outfileName) {
   return month_data.reverse();
 }
 
+async function updateCardbase() {
+  const acceptableFactionCodes = ["aggression", "justice", "leadership", "protection", "basic"];
+
+  const url = "https://marvelcdb.com/api/public/cards/";
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if ('error' in data) {
+    console.log(`Error fetching data for ${dateString}: ${data.error.message}`);
+  }
+
+  const filteredData = data.filter(entry => {
+    return acceptableFactionCodes.includes(entry.faction_code);
+  });
+  const filteredDataJson = JSON.stringify(filteredData);
+  fs.writeFile('src/json/card_data_sample.json', filteredDataJson, (err) => {
+    if (err) throw err;
+    console.log('card_data_sample updated');
+  });
+}
+
+
+
 export async function updateDeckData() {
   // Read the existing deck data from the file
   const rawData = fs.readFileSync(deckListFileName);
@@ -88,6 +111,12 @@ export async function updateDeckData() {
   // Overwrite the file with the updated decks
   fs.writeFileSync(deckListFileName, JSON.stringify(filteredDecks));
   console.log("Finished updating deck data.");
+
+  // updatecardbase() only wants to be ran each time a new hero is released
+  // At that time we will also want to re-run hero-names.js as well
+  // And repopulate hero_cards_list
+
+  // updateCardbase();
 }
 
 // Call this function once per week to update the deck data

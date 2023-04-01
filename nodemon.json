@@ -1,6 +1,7 @@
 {
   "ignore": [
     "node_modules",
-    "./src/json/deck_data_sample.json"
+    "./src/json/deck_data_sample.json",
+    "./src/json/card_data_sample.json"
   ]
 }

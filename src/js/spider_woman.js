@@ -1,34 +1,31 @@
-import {buildCardDiv} from './process_heroes.js';
+import {buildCardDiv} from "./process_heroes.js";
 import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
 // "04031a"
 export async function processSpiderWomanDecks(heroAspect, heroAspect2, percentageType) {
 
 
-  const heroCardsData = await getJSON('/json/hero_cards_list.json');
-  const deckListData = await getJSON('/json/deck_data_sample.json');
-  const cardsData = await getJSON('/json/card_data_sample.json');
+  const heroCardsData = await getJSON("/json/hero_cards_list.json");
+  const deckListData = await getJSON("/json/deck_data_sample.json");
+  const cardsData = await getJSON("/json/card_data_sample.json");
 
   const chosenDecks = [];
 
+  //preload it with basic before pumping in the others
   const aspectDecks = {
-    // "aggression": [],
-    // "leadership": [],
-    // "justice": [],
-    // "protection": [],
     "basic": [],
   };
 
   aspectDecks[heroAspect] = [];
   aspectDecks[heroAspect2] = [];
 
+
   for (const deck of deckListData) {
     if (deck.investigator_code === "04031a" && 
     (deck.meta === `{"aspect":"${heroAspect}","aspect2":"${heroAspect2}"}` || 
     deck.meta === `{"aspect":"${heroAspect2}","aspect2":"${heroAspect}"}`)) {
       chosenDecks.push(deck);
-      // aspectDecks["basic"].push(deck);
+      //make sure if either aspect matches we push to basic twice
     } else if (deck.meta == `{"aspect":"${heroAspect}"}`) {
-      // console.log(aspectDecks[heroAspect])
       aspectDecks[heroAspect].push(deck);
       aspectDecks["basic"].push(deck);
     } else if (deck.meta == `{"aspect":"${heroAspect2}"}`) {
@@ -79,12 +76,12 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, percentag
   //Header and cards
   const heroHeaderDiv = document.getElementById("hero-header");
   //clear it in case it's a resubmit
-  heroHeaderDiv.innerHTML = '';
+  heroHeaderDiv.innerHTML = "";
   // const heroName = findNameByCode(cardsData, herocode);
   buildHeroHeader(totalChosenDecks, heroHeaderDiv, heroAspect, heroAspect2);
 
   const cardResultsDiv = document.getElementById("card-results");
-  cardResultsDiv.innerHTML = '';
+  cardResultsDiv.innerHTML = "";
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
 
   setLocalStorage("hero/aspect", {"herocode": "04031a", heroAspect, heroAspect2});
@@ -93,7 +90,7 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, percentag
 
 //built original because of lacking aspects
 function buildHeroHeader(totalChosenDecks, heroHeaderDiv, heroAspect, heroAspect2) {
-  const heroHeader = document.createElement('h2');
+  const heroHeader = document.createElement("h2");
   heroHeader.textContent = `Selected Hero: Spider-Woman (${totalChosenDecks} ${heroAspect}/${heroAspect2} decks)`;
   heroHeaderDiv.appendChild(heroHeader);
 }

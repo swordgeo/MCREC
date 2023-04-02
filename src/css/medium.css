@@ -1,10 +1,6 @@
 /* Media Query for medium+ views */
 @media only screen and (min-width: 32.5em) {
 
-  /* body {
-    background-color: red;
-  } */
-
   /* hamburger */
   #smallNav {display: none;}
 
@@ -17,11 +13,6 @@
     border: none;
   }
   /* end hamburger */
-
-  /* #card-results ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  } */
 
   #card-results ul, #staple-results ul{
     display: flex;

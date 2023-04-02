@@ -5,13 +5,9 @@ export async function createHeroSelector(heroCardsData) {
   
   const selectorDiv = document.createElement("div");
   selectorDiv.setAttribute("id", "hero");
-  
-  
 
   //Make a selector for all the heroes, id is their hero code, visible is their hero name
-
   selectorDiv.innerHTML = `<label for="hero-selector">Choose your hero</label>`;
-
   const heroSelect = document.createElement("select");
   heroSelect.setAttribute("name", "hero-selector");
   heroSelect.setAttribute("id", "hero-selector");

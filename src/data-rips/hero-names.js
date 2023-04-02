@@ -1,9 +1,9 @@
 // Pull just the hero card codes and names to use in the selector
 
-const fs = require('fs');
+const fs = require("fs");
 
 // Load the nested deck data from the JSON file
-const nestedDecks = require('../../json/deck_data_sample.json');
+const nestedDecks = require("../../json/deck_data_sample.json");
 
 // Create an object to store the distinct investigator data
 const distinctInvestigators = {};
@@ -33,4 +33,4 @@ const sortedInvestigators = Object.values(distinctInvestigators)
   .sort((a, b) => a.heroname.localeCompare(b.heroname));
 
 // Write the array of distinct investigators to a JSON file
-fs.writeFileSync('hero_names.json', JSON.stringify(sortedInvestigators));
+fs.writeFileSync("hero_names.json", JSON.stringify(sortedInvestigators));

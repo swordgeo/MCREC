@@ -1,11 +1,11 @@
-import { processHeroDecks } from './process_heroes.js';
-import { processAdamWarlockDecks } from './adam_warlock.js';
-import { processSpiderWomanDecks } from './spider_woman.js';
-import { createHeroSelector } from './hero_selector.js';
-import { disableRadios, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from './utils.js';
+import { processHeroDecks } from "./process_heroes.js";
+import { processAdamWarlockDecks } from "./adam_warlock.js";
+import { processSpiderWomanDecks } from "./spider_woman.js";
+import { createHeroSelector } from "./hero_selector.js";
+import { disableRadios, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from "./utils.js";
 
 
-const heroNamesData = await getJSON('/json/hero_names.json');
+const heroNamesData = await getJSON("/json/hero_names.json");
 loadHeaderFooter().then(header => {
   hamburger(header);
 });
@@ -13,35 +13,29 @@ loadHeaderFooter().then(header => {
 await createHeroSelector(heroNamesData);
 
 //Add event listeners for the hero and aspect selectors
-const heroSelector = document.getElementById('hero-selector');
-const radio1 = document.getElementsByName('aspect');
-const submitButton = document.getElementById('submitBtn');
-const radio2Div = document.getElementById('aspect2');
-const radio2 = document.getElementsByName('aspect2');
-// const allRadios = document.querySelectorAll('input[type="radio"]');
+const heroSelector = document.getElementById("hero-selector");
+const radio1 = document.getElementsByName("aspect");
+const submitButton = document.getElementById("submitBtn");
+const radio2Div = document.getElementById("aspect2");
+const radio2 = document.getElementsByName("aspect2");
 
 // Add event listeners to selector and radio buttons
-heroSelector.addEventListener('change', handleSelectionChange);
+heroSelector.addEventListener("change", handleSelectionChange);
 for (let i = 0; i < radio1.length; i++) {
-  radio1[i].addEventListener('change', handleSelectionChange);
+  radio1[i].addEventListener("change", handleSelectionChange);
 }
 for (let i = 0; i < radio2.length; i++) {
-  radio2[i].addEventListener('change', handleSelectionChange);
+  radio2[i].addEventListener("change", handleSelectionChange);
 }
-submitButton.addEventListener('click', handleSubmit);
+submitButton.addEventListener("click", handleSubmit);
 
 //let's remember their last choice and load it for them automatically
 const currentStorage = getLocalStorage("hero/aspect");
-// console.log(currentStorage);
-// console.log(currentStorage.herocode);
 if (currentStorage.herocode == "21031a") { //Adam Warlock
-  // await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
   await processAdamWarlockDecks();
 } else if (currentStorage.herocode == "04031a") { //Spider-Woman
-  // await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2, heroCardsData, deckListData, cardsData);
   await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2);
 } else if (currentStorage.herocode && currentStorage.heroAspect) {
-  // await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
   await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroNamesData);
 }
 
@@ -90,18 +84,14 @@ async function handleSubmit(event) {
   event.preventDefault(); // Prevent page refresh
   const herocode = heroSelector.value;
   const heroAspect = getSelectedRadioButtonValue(radio1);
-
   const percentageType = getSelectedRadioButtonValue(document.getElementsByName("percentage-selector"));
 
   if (herocode == "21031a") { //Adam Warlock
-    // await processAdamWarlockDecks(heroCardsData, deckListData, cardsData);
     await processAdamWarlockDecks(percentageType);
   } else if (herocode == "04031a") { //Spider-Woman
     const heroAspect2 = getSelectedRadioButtonValue(radio2);
-    // await processSpiderWomanDecks(heroAspect, heroAspect2, heroCardsData, deckListData, cardsData);
     await processSpiderWomanDecks(heroAspect, heroAspect2, percentageType);
   } else {
-    // await processHeroDecks(herocode, heroAspect, heroCardsData, heroNamesData, deckListData, cardsData);
     await processHeroDecks(herocode, heroAspect, heroNamesData, percentageType);
   }
 }

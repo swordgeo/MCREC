@@ -1,9 +1,10 @@
 
 import fs from "fs";
-import fetch from 'node-fetch';
-import { DateTime } from 'luxon';
+import fetch from "node-fetch";
+import { DateTime } from "luxon";
 
-const deckListFileName = 'src/json/deck_data_sample.json';
+const deckListFileName = "src/json/deck_data_sample.json";
+//have to keep it 181 since we offset the other function
 const daysToKeep = 181; 
 
 function filterOldDecks(decks) {
@@ -49,7 +50,7 @@ async function ripDeckData(outfileName) {
     const response = await fetch(url);
     const data = await response.json();
 
-    if ('error' in data) {
+    if ("error" in data) {
       console.log(`Error fetching data for ${dateString}: ${data.error.message}`);
       continue;
     }
@@ -71,6 +72,7 @@ async function ripDeckData(outfileName) {
   return month_data.reverse();
 }
 
+
 async function updateCardbase() {
   const acceptableFactionCodes = ["aggression", "justice", "leadership", "protection", "basic"];
 
@@ -78,20 +80,21 @@ async function updateCardbase() {
   const response = await fetch(url);
   const data = await response.json();
 
-  if ('error' in data) {
+  if ("error" in data) {
     console.log(`Error fetching data for ${dateString}: ${data.error.message}`);
   }
 
   const filteredData = data.filter(entry => {
     return acceptableFactionCodes.includes(entry.faction_code);
   });
+
   const filteredDataJson = JSON.stringify(filteredData);
-  fs.writeFile('src/json/card_data_sample.json', filteredDataJson, (err) => {
+  
+  fs.writeFile("src/json/card_data_sample.json", filteredDataJson, (err) => {
     if (err) throw err;
-    console.log('card_data_sample updated');
+    console.log("card_data_sample updated");
   });
 }
-
 
 
 export async function updateDeckData() {

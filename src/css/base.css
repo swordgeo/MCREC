@@ -6,15 +6,11 @@ img {
 
 * {
   font-family: 'Rubik', sans-serif;
-
 }
 
-
 .center {
-  
   text-align: center;
   justify-content: center;
-  /*align-items: center;*/
 }
 
 section, div {
@@ -26,7 +22,6 @@ footer {
   background-color:#eee;
   border-top: 1px solid rgba(0,0,0,.5);
 }
-
 
 
 /* hamburger navigation */
@@ -117,12 +112,14 @@ nav ul.open {display: block;}
   max-width: 300px;
   box-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* add a slight shadow to the card */
   transition: box-shadow 0.3s ease-in-out;
+  margin: 10px;
 
 }
 
 #card-results ul li img:hover, #staple-results ul li img:hover {
   box-shadow: 4px 4px 8px rgba(0,0,0,0.6); /* add a slight shadow to the card */
   transition: box-shadow 0.3s ease-in-out; /* add a transition effect to the shadow */
+  transform: scale(1.02);
 }
 
 #submitBtn {
@@ -132,7 +129,4 @@ nav ul.open {display: block;}
 input {
   margin: 3px;
 }
-
-
 /* end hero page */
-

@@ -75,20 +75,17 @@ export function getSelectedRadioButtonValue(radioSet) {
 
 
 export function hamburger(header) {
-  const x = header.querySelector('#hamburgerBtn');
-  // console.log(x); // check if element is found
+  const x = header.querySelector("#hamburgerBtn");
   x.onclick = toggleMenu;
 }
 
 
-
 export async function loadHeaderFooter() {
-  const header = document.querySelector('header');
+  const header = document.querySelector("header");
   const headerTemplate = await loadTemplate("../snippets/header.html");
-
   renderWithTemplate(headerTemplate, header);
 
-  const footer = document.querySelector('footer');
+  const footer = document.querySelector("footer");
   const footerTemplate = await loadTemplate("../snippets/footer.html");
   renderWithTemplate(footerTemplate, footer);
 
@@ -129,9 +126,7 @@ export function stripQuotes(string) {
 
 
 function toggleMenu() {
-  // console.log("toggleMenu called");
-  const primaryNav = document.getElementById('primaryNav');
-  // console.log(primaryNav); // check if element is found
+  const primaryNav = document.getElementById("primaryNav");
   primaryNav.classList.toggle("open");
-  document.getElementById('hamburgerBtn').classList.toggle("open");
+  document.getElementById("hamburgerBtn").classList.toggle("open");
 }

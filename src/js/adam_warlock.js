@@ -1,15 +1,13 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
-import { buildCardDiv } from './process_heroes.js';
-import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from './utils.js';
+import { buildCardDiv } from "./process_heroes.js";
+import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
 // "cardcode":"21031a"
-// export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
 export async function processAdamWarlockDecks(percentageType) {
-  // console.log("Here we are at Adam Warlock");
 
-  const heroCardsData = await getJSON('/json/hero_cards_list.json');
-  const deckListData = await getJSON('/json/deck_data_sample.json');
-  const cardsData = await getJSON('/json/card_data_sample.json');
+  const heroCardsData = await getJSON("/json/hero_cards_list.json");
+  const deckListData = await getJSON("/json/deck_data_sample.json");
+  const cardsData = await getJSON("/json/card_data_sample.json");
 
   const chosenDecks = [];
 
@@ -60,7 +58,6 @@ export async function processAdamWarlockDecks(percentageType) {
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
     // need to do an if statement because apparently there are naughty people who put leadership cards inside of aggression/justice decks and break my code
     if (aspectDecks[cardAspect]) {
-      // console.log(aspectDecks[cardAspect]);
       const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
       const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
       const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
@@ -79,16 +76,15 @@ export async function processAdamWarlockDecks(percentageType) {
     cardInfo.sort((a, b) => b.percentage - a.percentage) // sort by percentage from highest to lowest
   }
 
-
   //Let's shoot the template literals into two different functions
   //Header and cards
   const heroHeaderDiv = document.getElementById("hero-header");
   //clear it in case it's a resubmit
-  heroHeaderDiv.innerHTML = '';
+  heroHeaderDiv.innerHTML = "";
   buildHeroHeader(totalChosenDecks, heroHeaderDiv);
 
   const cardResultsDiv = document.getElementById("card-results");
-  cardResultsDiv.innerHTML = '';
+  cardResultsDiv.innerHTML = "";
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
 
   setLocalStorage("hero/aspect", {"herocode": "21031a"});
@@ -96,7 +92,7 @@ export async function processAdamWarlockDecks(percentageType) {
 
 //built original because of lacking aspects
 function buildHeroHeader(totalChosenDecks, heroHeaderDiv) {
-  const heroHeader = document.createElement('h2');
+  const heroHeader = document.createElement("h2");
   heroHeader.textContent = `Selected Hero: Adam Warlock (${totalChosenDecks} decks)`;
   heroHeaderDiv.appendChild(heroHeader);
 }

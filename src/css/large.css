@@ -1,9 +1,5 @@
 @media (min-width: 60em) {
 
-  /* body {
-    background-color: green;
-  } */
-
   #hero-select {
     display: grid;
     grid-template-columns: 1fr 1fr;

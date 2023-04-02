@@ -4,7 +4,6 @@ import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, findURLB
 const deckListData = await getJSON("/json/deck_data_sample.json");
 const cardsData = await getJSON("/json/card_data_sample.json");
 
-
 loadHeaderFooter().then(header => {
   hamburger(header);
 });
@@ -14,9 +13,8 @@ const radioMaker = createRadios("staple-radio", true);
 radio.appendChild(radioMaker);
 const radios = document.getElementsByName("staple-radio");
 
-// createRadios(radioName)
 for (let i = 0; i < radios.length; i++) {
-  radios[i].addEventListener('change', receiveClick);
+  radios[i].addEventListener("change", receiveClick);
 }
 
 const currentStorage = getLocalStorage("staple");
@@ -85,15 +83,15 @@ async function displayStaples(aspect) {
 
 //unfortunately also can't import this because we have no "synergy percentage" now
 export function buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect) {
-  const ul = document.createElement('ul');
-  ul.setAttribute('class', 'center');
+  const ul = document.createElement("ul");
+  ul.setAttribute("class", "center");
   
   cardInfo.forEach(({ code, cardName, cardPhoto, percentage, cardUrl }) => {
     if (code == 0 || (findAspectByCode(cardsData, code) != aspect)) {
       return;
     }
-    const li = document.createElement('li');
-    li.setAttribute('class', 'center');
+    const li = document.createElement("li");
+    li.setAttribute("class", "center");
     li.innerHTML = `<p id="${code}"><a href="${cardUrl}"><strong>${cardName}</strong></a></p>`;
     //in case of bad photo, use placeholder
     if (cardPhoto == null) {

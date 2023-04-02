@@ -35,15 +35,40 @@ export async function createHeroSelector(heroCardsData) {
   const radio2 = createRadios("aspect2");
   selectorSection.appendChild(radio2);
 
+  //percentage-selector
+  const percentDiv = document.createElement("div");
+  percentDiv.innerHTML = "<span>Sort by: </span>";
+  percentDiv.setAttribute("id", "percentage-selector");
+  const synergyRadio = createPercentRadio("synergy", true);
+  const percentageRadio = createPercentRadio("percentage");
+  percentDiv.appendChild(synergyRadio);
+  percentDiv.appendChild(percentageRadio);
+  selectorSection.appendChild(percentDiv);
+
+  //submit button
   const submitBtn = document.createElement("button");
   submitBtn.setAttribute("disabled", "");
   submitBtn.setAttribute("id", "submitBtn");
   submitBtn.textContent = "Get Results";
   selectorSection.appendChild(submitBtn);
-
-
-
 }
+
+
+function createPercentRadio(name, checked = false) {
+  const label = document.createElement("label");
+  const input = document.createElement("input");
+  input.setAttribute("type", "radio");
+  input.setAttribute("name", "percentage-selector");
+  input.setAttribute("value", name);
+  if (checked) {
+    input.setAttribute("checked", "checked");
+  }
+  label.appendChild(input);
+  //visible text
+  label.append(name);
+  return label;
+}
+
 
 export function createRadios(radioName, basic = false) {
   const div = document.createElement("div");
@@ -60,6 +85,7 @@ export function createRadios(radioName, basic = false) {
     radioInput.setAttribute("name", radioName);
     radioInput.setAttribute("value", aspect);
     radioLabel.appendChild(radioInput);
+    //visible text
     radioLabel.append(capitalize(aspect));
     div.appendChild(radioLabel);
   }

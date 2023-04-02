@@ -1,7 +1,7 @@
 import {buildCardDiv} from './process_heroes.js';
 import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
 // "04031a"
-export async function processSpiderWomanDecks(heroAspect, heroAspect2) {
+export async function processSpiderWomanDecks(heroAspect, heroAspect2, percentageType) {
 
 
   const heroCardsData = await getJSON('/json/hero_cards_list.json');
@@ -69,9 +69,12 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2) {
     }
   })
   .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5
-  .sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
-  .slice(0, 50); // keep only the top 50 entries 
 
+  if (percentageType == "synergy") {
+    cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
+  } else {
+    cardInfo.sort((a, b) => b.percentage - a.percentage) // sort by percentage from highest to lowest
+  }
   //Let's shoot the template literals into two different functions
   //Header and cards
   const heroHeaderDiv = document.getElementById("hero-header");

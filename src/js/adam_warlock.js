@@ -4,7 +4,7 @@ import { buildCardDiv } from './process_heroes.js';
 import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from './utils.js';
 // "cardcode":"21031a"
 // export async function processAdamWarlockDecks(heroCardsData, deckListData, cardsData) {
-export async function processAdamWarlockDecks() {
+export async function processAdamWarlockDecks(percentageType) {
   // console.log("Here we are at Adam Warlock");
 
   const heroCardsData = await getJSON('/json/hero_cards_list.json');
@@ -72,8 +72,13 @@ export async function processAdamWarlockDecks() {
     }
   })
   .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5
-  .sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
-  .slice(0, 50); // keep only the top 50 entries 
+
+  if (percentageType == "synergy") {
+    cardInfo.sort((a, b) => b.synergyPercentage - a.synergyPercentage) // sort by percentage from highest to lowest
+  } else {
+    cardInfo.sort((a, b) => b.percentage - a.percentage) // sort by percentage from highest to lowest
+  }
+
 
   //Let's shoot the template literals into two different functions
   //Header and cards

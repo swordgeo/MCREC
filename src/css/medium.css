@@ -22,4 +22,9 @@
   #card-results ul li, #staple-results ul li {
     max-width: 99%;
   }
+  
+  #about-body {
+    max-width: 80%;
+    margin: auto;
+  }
 }

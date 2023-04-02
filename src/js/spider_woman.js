@@ -65,7 +65,7 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2) {
       const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
       return { code: cardCode, cardName, cardPhoto, percentage: heroAndAspectPercentage, synergyPercentage, cardUrl };
     } else {
-      return { code: 0 }
+      return { code: 0, percentage: 0 }
     }
   })
   .filter(({ percentage }) => percentage >= 5) // remove entries whose percentage is less than 5

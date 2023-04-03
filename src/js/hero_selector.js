@@ -7,7 +7,7 @@ export async function createHeroSelector(heroCardsData) {
   selectorDiv.setAttribute("id", "hero");
 
   //Make a selector for all the heroes, id is their hero code, visible is their hero name
-  selectorDiv.innerHTML = `<label for="hero-selector">Choose your hero</label>`;
+  selectorDiv.innerHTML = `<label for="hero-selector">Choose your hero: </label>`;
   const heroSelect = document.createElement("select");
   heroSelect.setAttribute("name", "hero-selector");
   heroSelect.setAttribute("id", "hero-selector");
@@ -68,6 +68,7 @@ function createPercentRadio(name, checked = false) {
 
 export function createRadios(radioName, basic = false) {
   const div = document.createElement("div");
+  div.innerHTML = "<span>Choose your aspect: </span>";
   div.setAttribute("id", radioName);
   const aspects = ["aggression", "justice", "leadership", "protection"];
   if (basic) {

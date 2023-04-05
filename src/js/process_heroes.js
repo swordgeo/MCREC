@@ -20,6 +20,7 @@ export async function processHeroDecks(herocode, heroAspect, heroNamesData, perc
       "leadership": [],
       "justice": [],
       "protection": [],
+      "basic": [],
     };
 
     for (const deck of deckListData) {
@@ -71,20 +72,32 @@ export async function processHeroDecks(herocode, heroAspect, heroNamesData, perc
     const cardPhoto = findPhotoByCode(cardsData, cardCode);
     const cardUrl = findURLByCode(cardsData, cardCode);
     const heroAndAspectCount = chosenDecks.filter(deck => deck.slots[cardCode] > 0).length;
+
     // This is where things get hinky if we have Cyclops or Gamora
     if (herocode == "33001a" || herocode == "18001a") {//Cyclops or Gamora respectively
       const cardAspect = findAspectByCode(cardsData, cardCode);
       // need to do an if statement because apparently there are naughty people who put leadership cards inside of aggression decks and break my code
       if (aspectDecks[cardAspect]) {
-        const aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
         const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);
-        const aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
+
+        // one extra hoop to jump through if it is a basic card is to point it at its parent aspect
+        let aspectCount;
+        let aspectPercentage;
+        if (cardAspect == "basic") {
+          aspectCount = aspectDecks[heroAspect].filter(deck => deck.slots[cardCode] > 0).length;
+          aspectPercentage = Math.round((aspectCount / aspectDecks[heroAspect].length) * 100);
+        } else {
+          aspectCount = aspectDecks[cardAspect].filter(deck => deck.slots[cardCode] > 0).length;
+          aspectPercentage = Math.round((aspectCount / aspectDecks[cardAspect].length) * 100);
+        }
+        
         const synergyPercentage = heroAndAspectPercentage - aspectPercentage;
         return { code: cardCode, cardName, cardPhoto, percentage: heroAndAspectPercentage, synergyPercentage, cardUrl };
       } else {
         // code: 0 will skip the card during buildCardDiv
         return { code: 0, cardName, cardPhoto, percentage: 0, synergyPercentage: 0 };
       }
+      
     } else { //ordinary hero that's not giving us problems
       const aspectCount = aspectDecks.filter(deck => deck.slots[cardCode] > 0).length;
       const heroAndAspectPercentage = Math.round((heroAndAspectCount / totalChosenDecks) * 100);

@@ -1,5 +1,5 @@
 import { createRadios } from "./hero_selector.js";
-import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter, setLocalStorage, stripQuotes } from "./utils.js";
+import { capitalize, findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from "./utils.js";
 
 const deckListData = await getJSON("/json/deck_data_sample.json");
 const cardsData = await getJSON("/json/card_data_sample.json");
@@ -15,11 +15,6 @@ const radios = document.getElementsByName("staple-radio");
 
 for (let i = 0; i < radios.length; i++) {
   radios[i].addEventListener("change", receiveClick);
-}
-
-const currentStorage = getLocalStorage("staple");
-if (currentStorage.aspect) {
-  displayStaples(currentStorage.aspect);
 }
 
 
@@ -76,8 +71,6 @@ async function displayStaples(aspect) {
     const cardResultsDiv = document.getElementById("staple-results");
     cardResultsDiv.innerHTML = "";
     buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv, aspect);
-
-    setLocalStorage("staple", {aspect});
 }
 
 

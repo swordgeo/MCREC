@@ -1,4 +1,4 @@
-import { findAspectByCode, findHeroByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
+import { findAspectByCode, findHeroByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON } from "./utils.js";
 
 export async function processHeroDecks(herocode, heroAspect, heroNamesData, percentageType) {
 
@@ -126,7 +126,6 @@ export async function processHeroDecks(herocode, heroAspect, heroNamesData, perc
   const cardResultsDiv = document.getElementById("card-results");
   cardResultsDiv.innerHTML = "";
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
-  setLocalStorage("hero/aspect", {herocode, heroAspect});
 }
 
 

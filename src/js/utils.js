@@ -55,13 +55,6 @@ export async function getJSON(url) {
   return await response.json();
 }
 
-// retrieve data from localstorage
-export function getLocalStorage(key) {
-  const item = localStorage.getItem(key);
-  //If there is no localStorage, return empty array
-  return item ? JSON.parse(item) : [];
-}
-
 
 // Function to retrieve the value of the selected radio button
 export function getSelectedRadioButtonValue(radioSet) {
@@ -111,12 +104,6 @@ export function renderWithTemplate(
   if (callback) {
     callback(data);
   }
-}
-
-
-// save data to local storage
-export function setLocalStorage(key, data) {
-  localStorage.setItem(key, JSON.stringify(data));
 }
 
 

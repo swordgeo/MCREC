@@ -1,5 +1,5 @@
 import {buildCardDiv} from "./process_heroes.js";
-import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
+import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON } from "./utils.js";
 // "04031a"
 export async function processSpiderWomanDecks(heroAspect, heroAspect2, percentageType) {
 
@@ -83,8 +83,6 @@ export async function processSpiderWomanDecks(heroAspect, heroAspect2, percentag
   const cardResultsDiv = document.getElementById("card-results");
   cardResultsDiv.innerHTML = "";
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
-
-  setLocalStorage("hero/aspect", {"herocode": "04031a", heroAspect, heroAspect2});
 }
 
 

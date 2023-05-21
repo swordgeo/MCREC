@@ -2,7 +2,7 @@ import { processHeroDecks } from "./process_heroes.js";
 import { processAdamWarlockDecks } from "./adam_warlock.js";
 import { processSpiderWomanDecks } from "./spider_woman.js";
 import { createHeroSelector } from "./hero_selector.js";
-import { disableRadios, getJSON, getLocalStorage, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from "./utils.js";
+import { disableRadios, getJSON, getSelectedRadioButtonValue, hamburger, loadHeaderFooter } from "./utils.js";
 
 
 const heroNamesData = await getJSON("/json/hero_names.json");
@@ -28,16 +28,6 @@ for (let i = 0; i < radio2.length; i++) {
   radio2[i].addEventListener("change", handleSelectionChange);
 }
 submitButton.addEventListener("click", handleSubmit);
-
-//let's remember their last choice and load it for them automatically
-const currentStorage = getLocalStorage("hero/aspect");
-if (currentStorage.herocode == "21031a") { //Adam Warlock
-  await processAdamWarlockDecks();
-} else if (currentStorage.herocode == "04031a") { //Spider-Woman
-  await processSpiderWomanDecks(currentStorage.heroAspect, currentStorage.heroAspect2);
-} else if (currentStorage.herocode && currentStorage.heroAspect) {
-  await processHeroDecks(currentStorage.herocode, currentStorage.heroAspect, heroNamesData);
-}
 
 
 // Function to handle selection changes

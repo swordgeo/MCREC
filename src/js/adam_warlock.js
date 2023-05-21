@@ -1,7 +1,7 @@
 //We may roll this back into the main file
 //Then again it's probably better if we don't
 import { buildCardDiv } from "./process_heroes.js";
-import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON, setLocalStorage } from "./utils.js";
+import { findAspectByCode, findNameByCode, findPhotoByCode, findURLByCode, getJSON } from "./utils.js";
 // "cardcode":"21031a"
 export async function processAdamWarlockDecks(percentageType) {
 
@@ -86,8 +86,6 @@ export async function processAdamWarlockDecks(percentageType) {
   const cardResultsDiv = document.getElementById("card-results");
   cardResultsDiv.innerHTML = "";
   buildCardDiv(cardInfo, totalChosenDecks, cardResultsDiv);
-
-  setLocalStorage("hero/aspect", {"herocode": "21031a"});
 }
 
 //built original because of lacking aspects
